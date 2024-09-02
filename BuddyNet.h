@@ -14,13 +14,14 @@ class Net{
         vector<Profile*> profiles;
         vector<Post*> posts;
         vector<Post*> postsIndex; //To access the posts with their ID;
-
-        void loop();
+        Profile* user;
     
         void createProfile();
         void accessProfile(); //Check password -> Local variables about user change??
+        int searchProfile(std::string);
 
-        void showFeed(); //Change order, access to a post, create a post, quit
+        void home(); //Change order, access to a post, create a post, quit
+        void showPosts();
         void orderByVotes();
         void orderByDates();
         void accessPost(); //Takes to a menu to upvote or downvote and in a future comment
@@ -29,6 +30,7 @@ class Net{
         void downvotePost();
 
         void freeMemory();
+        void waitUser();
 
         void testData();
 
@@ -48,29 +50,160 @@ void Net::startNet(){
     std::setlocale(LC_ALL, "");
     #endif
     
-    
     int q;
 
     testData();
 
     do{
         screen.clear();
+
         std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.green("BUDDY NET")))<<"\n\n";
         std::cout<<"\n"<<screen.text.color.green("1.- Create Profile")<<"\n";
         std::cout<<"\n"<<screen.text.color.green("2.- Access Profile")<<"\n";
         std::cout<<"\n"<<screen.text.color.green("0.- Exit")<<"\n\n";
         std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to do (0-2): "));
+
         q=input.getInt(0,2);
         switch(q){
             case 1: //Create profile
+                createProfile();
                 break;
-            case 2: //Acces profile
+            case 2: //Access profile
+                accessProfile();
                 break;
         }
 
     }while(q!=0);
+
     std::cout<<"\n\n"<<screen.center(screen.text.style.blinking(screen.text.color.yellow("Exiting...")))<<"\n\n\n";
     freeMemory();
+}
+
+void Net::createProfile(){
+    screen.clear();
+
+    std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.blue("Profile creation")))<<"\n\n";
+    std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your desired username: "));
+    std::string username=input.getWord();
+    while(searchProfile(username)>=0){
+        std::cout<<screen.text.color.red("That username already exists.\n")+screen.text.style.italic(screen.text.color.green("Please type a different one: "));
+        username=input.getWord();
+    }
+
+    std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your full name: "));
+    std::string name=input.getString();
+
+    std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your user's password: "));
+    std::string password=input.getPassword();
+
+    std::cout<<screen.text.style.italic(screen.text.color.green("Type your user's description: "));
+    std::string description=input.getString();
+
+    std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your year of birth: "));
+    int year=input.getInt(1950, 2050);
+
+    std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your month of birth: "));
+    int month=input.getInt(1,12);
+
+    std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your day of birth: "));
+    int day=input.getInt(1,31);
+
+    profiles.push_back(new Profile(profiles.size(), name, username, password, description, year, month, day));
+    std::cout<<"\n"<<screen.center(screen.text.color.yellow("Your profile has bean created succesfully."))<<"\n";
+    std::cout<<screen.center(screen.text.color.yellow("Log in with the \"Access Profile\" option."))<<"\n\n";
+    waitUser();
+}
+
+void Net::accessProfile(){
+    screen.clear();
+
+    std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.blue("Profile Access")))<<"\n\n";
+    std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your username: "));
+    std::string username=input.getWord();
+    int i=searchProfile(username);
+    if(i==-1){
+        std::cout<<"\n"<<screen.center(screen.text.color.red("Username not found."))<<"\n";
+        std::cout<<"\n"<<screen.center(screen.text.color.yellow("Going back to main menu."))<<"\n\n";
+        waitUser();
+        return;
+    }
+
+    int c=1;
+    std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your user's password: "));
+    std::string password=input.getPassword();
+    while(!profiles[i]->validatePassword(password) && c<3){
+        std::cout<<screen.text.color.red("Not the correct passowrd. Attempt No. "+input.getString(c)+" of 3.\n")+screen.text.style.italic(screen.text.color.green("Please try again: "));
+        password=input.getPassword();
+        c++;
+    }
+    if(!profiles[i]->validatePassword(password)){
+        std::cout<<screen.text.color.red("Not the correct passowrd. Attempt No. "+input.getString(c)+" of 3.\n");
+        std::cout<<"\n"<<screen.center(screen.text.color.red("Too many attempts."))<<"\n";
+        std::cout<<"\n"<<screen.center(screen.text.color.yellow("Going back to main menu."))<<"\n\n";
+        waitUser();
+        return;
+    }
+
+    user=profiles[i];
+    home();
+}
+
+int Net::searchProfile(std::string username){ //Complexity O(n)
+    for(ll i=0; i<profiles.size(); i++){
+        if(profiles[i]->getUsername()==username) return i;
+    }
+    return -1;
+}
+
+void Net::home(){
+    int q;
+
+    do{
+        screen.clear();
+
+        std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.magenta("BUDDY NET -> HOME")))<<"\n\n";
+        std::cout<<"\n"<<screen.text.color.magenta("1.- See Posts")<<"\n";
+        std::cout<<"\n"<<screen.text.color.magenta("2.- Order posts")<<"\n";
+        std::cout<<"\n"<<screen.text.color.magenta("0.- Go back")<<"\n\n";
+        std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to do (0-2): "));
+        q=input.getInt(0,2);
+
+        switch(q){
+            case 1: //See posts
+                showPosts();
+                break;
+            case 2: //Order posts
+                screen.clear();
+                int x;
+                std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.magenta("Order by:")))<<"\n\n";
+                std::cout<<"\n"<<screen.text.color.magenta("1.- Date")<<"\n";
+                std::cout<<"\n"<<screen.text.color.magenta("2.- Votes")<<"\n";
+                std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to select (1-2): "));
+                x=input.getInt(1,2);
+                switch(x){
+                    case 1:
+                        orderByDates();
+                        break;
+                    case 2:
+                        orderByVotes();
+                        break;
+                }
+                break;
+        }
+
+    }while(q!=0);
+}
+
+void Net::showPosts(){
+
+}
+
+void Net::orderByVotes(){
+
+}
+
+void Net::orderByDates(){
+
 }
 
 void Net::freeMemory(){
@@ -80,6 +213,11 @@ void Net::freeMemory(){
     for(Profile* i:profiles){
         delete i;
     }
+}
+
+void Net::waitUser(){
+    std::cout<<screen.center(screen.text.style.italic(screen.text.color.green("Type enter to continue.")));
+    string s=input.getString();
 }
 
 void Net::testData(){

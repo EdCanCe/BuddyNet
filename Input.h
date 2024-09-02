@@ -13,6 +13,7 @@ class Input{
         std::string getString();
         std::string getString(ll);
         std::string getWord();
+        std::string getPassword();
         char getChar();
 };
 
@@ -78,6 +79,14 @@ std::string Input::getWord(){
             i=0;
         }
     }
+    return s;
+}
+
+std::string Input::getPassword(){
+    std::cout<<"\033[8m";
+    std::string s;
+    std::getline(std::cin, s);
+    std::cout<<"\033[28m";
     return s;
 }
 
