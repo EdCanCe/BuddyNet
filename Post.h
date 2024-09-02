@@ -12,9 +12,11 @@ class Post{
         Profile* author;
         std::string text;
         Date date;
+        ll votes;
         Post* fatherPost; //Father post in case it's a comment - Future implementation
     public:
         Post(ll, Profile&, std::string);
+        Post(ll, Profile&, ll, std::string);
         ll getId();
         Profile& getAuthor();
         std::string getText();
@@ -24,6 +26,15 @@ class Post{
 Post::Post(ll Id, Profile& Author, std::string Text){
     id=Id;
     author=&Author;
+    votes=0;
+    text=Text;
+    date=Date();
+}
+
+Post::Post(ll Id, Profile& Author, ll Votes, std::string Text){
+    id=Id;
+    author=&Author;
+    votes=Votes;
     text=Text;
     date=Date();
 }

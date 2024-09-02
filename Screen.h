@@ -29,9 +29,7 @@ class Screen{
         int getWidth();
         int getHeight();
         void clear();
-        std::string centerHorizontal(std::string);
-        //std::string centerVertical(std::string);
-        //std::string center(std::string);
+        std::string center(std::string);
 };
 
 int Screen::getWidth(){
@@ -70,13 +68,13 @@ void Screen::clear(){
     #endif
 }
 
-std::string Screen::centerHorizontal(std::string s){
+std::string Screen::center(std::string s){
     std::regex ansiCodes("\033\\[([0-9;]*m)");
     int n=std::regex_replace(s, ansiCodes, "").size(); //Size of string without ansi codes
     int width=getWidth();
     int dif=width-n;
     if(dif>=0){
-        for(int i=0; i<dif/2; i++){
+        for(int i=0; i<=dif/2; i++){
             s=" "+s;
         }
     }

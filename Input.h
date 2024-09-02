@@ -12,6 +12,7 @@ class Input{
         ll getInt(std::string);
         std::string getString();
         std::string getString(ll);
+        std::string getWord();
         char getChar();
 };
 
@@ -22,7 +23,7 @@ ll Input::getInt(){
     ll x=s.size();
     for(ll i=li; i<x; i++){
         if(s[i]<'0' || s[i]>'9'){
-            std::cout<<screen.text.color.red("It must be a number\nTry again: ");
+            std::cout<<screen.text.color.red("It must be a number\n")+screen.text.style.italic(screen.text.color.green("Try again: "));
             std::getline(std::cin, s);
             li = s[0]=='-' ? 1 : 0;
             i=li-1;
@@ -42,7 +43,7 @@ ll Input::getInt(ll a, ll b){
     ll x;
     x=getInt();
     while(x<a || x>b){
-        std::cout<<screen.text.color.red("The number must be between "+getString(a)+" and "+getString(b)+"\nTry again: ");
+        std::cout<<screen.text.color.red("The number must be between "+getString(a)+" and "+getString(b)+"\n")+screen.text.style.italic(screen.text.color.green("Try again: "));
         x=getInt();
     }
     return x;
@@ -67,11 +68,24 @@ std::string Input::getString(ll a){
     return std::to_string(a);
 }
 
+std::string Input::getWord(){
+    std::string s;
+    std::getline(std::cin, s);
+    for(ll i=0; i<s.size(); i++){
+        if(s[i]==' '){
+            std::cout<<screen.text.color.red("It cannot contain spaces\n")+screen.text.style.italic(screen.text.color.green("Try again: "));
+            std::getline(std::cin, s);
+            i=0;
+        }
+    }
+    return s;
+}
+
 char Input::getChar(){
     std::string s;
     s=getString();
     while(s.size()>1){
-        std::cout<<screen.text.color.red("Only enter one character: ");
+        std::cout<<screen.text.color.red("Only enter one character\n")+screen.text.style.italic(screen.text.color.green("Try again: "));
         s=getString();
     }
     return s[0];

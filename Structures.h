@@ -2,6 +2,6 @@
 #define STRUCTURES_H
 
 #include <vector> //After learning how it works implement it manually
-//using namespace std;
+using namespace std;
 
 #endif
