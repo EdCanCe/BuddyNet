@@ -42,7 +42,12 @@ class Net{
 };
 
 void Net::startNet(){
+    #ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8);
+    #else
+    std::setlocale(LC_ALL, "");
+    #endif
+    
     
     int q;
 
@@ -54,7 +59,7 @@ void Net::startNet(){
         std::cout<<"\n"<<screen.text.color.green("1.- Create Profile")<<"\n";
         std::cout<<"\n"<<screen.text.color.green("2.- Access Profile")<<"\n";
         std::cout<<"\n"<<screen.text.color.green("0.- Exit")<<"\n\n";
-        std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to do áéíóúñ [💀] (0-2): "));
+        std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to do (0-2): "));
         q=input.getInt(0,2);
         switch(q){
             case 1: //Create profile
