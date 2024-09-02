@@ -69,7 +69,7 @@ void Post::print(){
     }
     std::cout<<"\n"<<screen.center(screen.text.style.bold(screen.text.color.green("@"+author->getUsername())));
     std::cout<<"\n"<<screen.center(screen.text.color.green(author->getName()));
-    std::cout<<"\n"<<screen.center("Votes: " + (votes > 0 ? screen.text.color.green(input.getString(votes)) : screen.text.color.red(input.getString(votes))) + "   |   " + date.toText())<<"\n";
+    std::cout<<"\n"<<screen.center("Votes: " + (votes >= 0 ? screen.text.color.green(input.getString(votes)) : screen.text.color.red(input.getString(votes))) + "   |   " + date.toText())<<"\n";
     for(int i=0; i<width; i++){
         std::cout<<screen.text.style.dim("─");
     }

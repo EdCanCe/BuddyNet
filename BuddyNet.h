@@ -6,7 +6,6 @@
 #include "Profile.h"
 #include "Post.h"
 #include "Input.h"
-#include "Database.h"
 #include "Structures.h"
 
 class Net{
@@ -17,17 +16,18 @@ class Net{
         Profile* user;
     
         void createProfile();
-        void accessProfile(); //Check password -> Local variables about user change??
+        void accessProfile(); 
         int searchProfile(std::string);
 
-        void home(); //Change order, access to a post, create a post, quit
+        void home(); 
         void showPosts();
         void orderByVotes();
         void VotesArray(vector<Post*>&, vector<Post*>&, ll, ll, ll);
         void VotesSplit(vector<Post*>&, vector<Post*>&, ll, ll);
         void VotesCopy(vector<Post*>&, vector<Post*>&, ll, ll);
         void orderByDates();
-        void accessPost(); //Takes to a menu to upvote or downvote and in a future comment
+        void createPost();
+        void accessPost(); //Takes to a menu to upvote, downvote and comment - Furue implementation
 
         void upvotePost();
         void downvotePost();
@@ -39,8 +39,6 @@ class Net{
 
         /*void loadData(); - Future Implementation
         void storeData();*/
-
-        //checar en pet vet: si en las clases de no tanta importancia dentro de otras clases se creaban con NEW o se creaban directamente
 
     public:
         void startNet();
@@ -99,7 +97,7 @@ void Net::createProfile(){
     std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your user's password: "));
     std::string password=input.getPassword();
 
-    std::cout<<screen.text.style.italic(screen.text.color.green("Type your user's description: "));
+    std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your user's description: "));
     std::string description=input.getString();
 
     std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your year of birth: "));
@@ -167,9 +165,10 @@ void Net::home(){
         std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.magenta("BUDDY NET -> HOME")))<<"\n\n";
         std::cout<<"\n"<<screen.text.color.magenta("1.- See Posts")<<"\n";
         std::cout<<"\n"<<screen.text.color.magenta("2.- Order posts")<<"\n";
+        std::cout<<"\n"<<screen.text.color.magenta("3.- Create post")<<"\n";
         std::cout<<"\n"<<screen.text.color.magenta("0.- Go back")<<"\n\n";
-        std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to do (0-2): "));
-        q=input.getInt(0,2);
+        std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to do (0-3): "));
+        q=input.getInt(0,3);
 
         switch(q){
             case 1: //See posts
@@ -192,6 +191,8 @@ void Net::home(){
                         break;
                 }
                 break;
+            case 3:
+                createPost();
         }
 
     }while(q!=0);
@@ -222,7 +223,7 @@ void Net::VotesArray(vector<Post*>& A, vector<Post*>& B, ll low, ll mid, ll high
 		}else if(sp==high+1){
 			B[i]=A[fp];
 			fp++;
-		}else if(A[fp]->getVotes()>A[sp]->getVotes()){
+		}else if(A[fp]->getVotes()<A[sp]->getVotes()){
 			B[i]=A[fp];
 			fp++;
 		}else{
@@ -251,6 +252,15 @@ void Net::VotesCopy(vector<Post*>& A, vector<Post*>& B, ll low, ll high){
 
 void Net::orderByDates(){ //Complexity O(1)
     posts=postsIndex;
+}
+
+void Net::createPost(){
+    screen.clear();
+    std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.magenta("Post creation")))<<"\n\n";
+    std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your post: "));
+    std::string text=input.getString();
+    posts.push_back(new Post(posts.size(), *user, text));
+    postsIndex.push_back(posts[postsIndex.size()]);
 }
 
 void Net::freeMemory(){
