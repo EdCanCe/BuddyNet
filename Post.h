@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Profile.h"
 #include "Date.h"
+#include "Screen.h"
 #define ll long long int
 
 class Post{
@@ -21,6 +22,8 @@ class Post{
         Profile& getAuthor();
         std::string getText();
         Date& getDate();
+        ll getVotes();
+        void print();
 };
 
 Post::Post(ll Id, Profile& Author, std::string Text){
@@ -53,6 +56,27 @@ std::string Post::getText(){
 
 Date& Post::getDate(){
     return date;
+}
+
+ll Post::getVotes(){
+    return votes;
+}
+
+void Post::print(){
+    int width=screen.getWidth();
+    for(int i=0; i<width; i++){
+        std::cout<<screen.text.style.dim("═");
+    }
+    std::cout<<"\n"<<screen.center(screen.text.style.bold(screen.text.color.green("@"+author->getUsername())));
+    std::cout<<"\n"<<screen.center(screen.text.color.green(author->getName()));
+    std::cout<<"\n"<<screen.center("Votes: " + (votes > 0 ? screen.text.color.green(input.getString(votes)) : screen.text.color.red(input.getString(votes))) + "   |   " + date.toText())<<"\n";
+    for(int i=0; i<width; i++){
+        std::cout<<screen.text.style.dim("─");
+    }
+    std::cout<<"\n"<<text<<"\n";
+    for(int i=0; i<width; i++){
+        std::cout<<screen.text.style.dim("═");
+    }
 }
 
 #endif

@@ -23,6 +23,9 @@ class Net{
         void home(); //Change order, access to a post, create a post, quit
         void showPosts();
         void orderByVotes();
+        void VotesArray(vector<Post*>&, vector<Post*>&, ll, ll, ll);
+        void VotesSplit(vector<Post*>&, vector<Post*>&, ll, ll);
+        void VotesCopy(vector<Post*>&, vector<Post*>&, ll, ll);
         void orderByDates();
         void accessPost(); //Takes to a menu to upvote or downvote and in a future comment
 
@@ -195,15 +198,59 @@ void Net::home(){
 }
 
 void Net::showPosts(){
-
+    screen.clear();
+    std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.green("BUDDY NET -> POSTS")))<<"\n\n\n";
+    for(ll i=0; i<posts.size(); i++){
+        posts[i]->print();
+        cout<<"\n\n\n";
+    }
+    std::cout<<screen.center(screen.text.color.yellow("Going back home."))<<"\n\n";
+    waitUser();
 }
 
-void Net::orderByVotes(){
-
+void Net::orderByVotes(){ //Merge Sort - Complexity O(n log n)
+    vector<Post*> v2(posts.size());
+    VotesSplit(posts, v2, 0, posts.size()-1);
 }
 
-void Net::orderByDates(){
+void Net::VotesArray(vector<Post*>& A, vector<Post*>& B, ll low, ll mid, ll high){
+    ll fp=low, sp=mid+1;
+	for(ll i=low; i<=high; i++){
+		if(fp==mid+1){
+			B[i]=A[sp];
+			sp++;
+		}else if(sp==high+1){
+			B[i]=A[fp];
+			fp++;
+		}else if(A[fp]->getVotes()>A[sp]->getVotes()){
+			B[i]=A[fp];
+			fp++;
+		}else{
+			B[i]=A[sp];
+			sp++;
+		}
+	}
+}
 
+void Net::VotesSplit(vector<Post*>& A, vector<Post*>& B, ll low, ll high){
+    if(high-low<1){
+		return;
+	}
+	int mid=(low+high)/2;
+	VotesSplit(A, B, low, mid);
+	VotesSplit(A, B, mid+1, high);
+	VotesArray(A, B, low, mid, high);
+	VotesCopy(A,B, low, high);
+}
+
+void Net::VotesCopy(vector<Post*>& A, vector<Post*>& B, ll low, ll high){
+    for(int i=low; i<=high; i++){
+		A[i]=B[i];
+	}
+}
+
+void Net::orderByDates(){ //Complexity O(1)
+    posts=postsIndex;
 }
 
 void Net::freeMemory(){
