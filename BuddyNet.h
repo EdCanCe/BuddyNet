@@ -11,6 +11,8 @@
 
 class Net{
     private:
+        //vector<Profile> profiles;
+
         void loop();
     
         void createProfile();
@@ -33,9 +35,8 @@ class Net{
         void startNet();
 };
 
-void startNet(){
-    screen.clear();
-    
+void Net::startNet(){
+    //screen.clear();
 }
 
 #endif

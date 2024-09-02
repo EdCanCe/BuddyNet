@@ -11,6 +11,7 @@
 #define FUNCTIONS_H
 
 #include <iostream>
+#include <regex>
 #include "TextStyle.h"
 
 #ifdef _WIN32
@@ -24,10 +25,13 @@
 class Screen{
     //Declaration of Public Methods
     public:
+        Text text;
         int getWidth();
         int getHeight();
         void clear();
-        Text text;
+        std::string centerHorizontal(std::string);
+        //std::string centerVertical(std::string);
+        //std::string center(std::string);
 };
 
 int Screen::getWidth(){
@@ -64,6 +68,19 @@ void Screen::clear(){
     #else
     system("clear");
     #endif
+}
+
+std::string Screen::centerHorizontal(std::string s){
+    std::regex ansiCodes("\033\\[([0-9;]*m)");
+    int n=std::regex_replace(s, ansiCodes, "").size(); //Size of string without ansi codes
+    int width=getWidth();
+    int dif=width-n;
+    if(dif>=0){
+        for(int i=0; i<dif/2; i++){
+            s=" "+s;
+        }
+    }
+    return s;
 }
 
 //Creates an Input object that will be used throughout the classes.
