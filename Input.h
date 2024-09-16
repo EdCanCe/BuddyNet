@@ -14,6 +14,7 @@ class Input{
         std::string getString(ll);
         std::string getWord();
         std::string getPassword();
+        std::string getRawString(std::string);
         char getChar();
 };
 
@@ -87,6 +88,14 @@ std::string Input::getPassword(){
     std::string s;
     std::getline(std::cin, s);
     std::cout<<"\033[28m";
+    return s;
+}
+
+std::string Input::getRawString(std::string s){
+    int diff='a'-'A';
+    for(int i=0; i<s.size(); i++){
+        s[i]=std::tolower(s[i]);
+    }
     return s;
 }
 

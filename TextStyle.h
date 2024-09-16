@@ -1,8 +1,8 @@
-/*
+/**
 * 
-* BuddyNet - Screen Class
+* BuddyNet - Color Class
 * A01645576
-* This class has attributes to
+* This class has functions to
 * help render many colors and
 * styles.
 *
@@ -12,12 +12,21 @@
 
 #include <iostream>
 
+/**
+ * @class Color
+ * 
+ * @brief This class has functions that add the
+ * ANSI escape code sequence to render colors.
+ *
+ */
 class Color{
     public:
+        //Renders the given text with a black color
         std::string black(const std::string& text){
             return "\033[30m"+text+"\033[39m";
         }
         
+        //Renders the given text with a red color
         std::string red(const std::string& text){
             return "\033[31m"+text+"\033[39m";
         }

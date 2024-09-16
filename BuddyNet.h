@@ -10,6 +10,8 @@
 
 class Net{
     private:
+        bool isOrderVotes=0; //Represents it's ordered chronologically
+
         vector<Profile*> profiles;
         vector<Post*> posts;
         vector<Post*> postsIndex; //To access the posts with their ID;
@@ -17,10 +19,10 @@ class Net{
     
         void createProfile();
         void accessProfile(); 
-        int searchProfile(std::string);
+        int profileExists(std::string);
 
         void home(); 
-        void showPosts();
+        void showPosts(); // <- Falta añadir menú que muestre si se ven todos o solo de los últimos 3 días, verificar que solo salgan posts de los usuarios a dos de distancia
         void orderByVotes();
         void VotesArray(vector<Post*>&, vector<Post*>&, ll, ll, ll);
         void VotesSplit(vector<Post*>&, vector<Post*>&, ll, ll);
@@ -28,6 +30,7 @@ class Net{
         void orderByDates();
         void createPost();
         void accessPost(); //Takes to a menu to upvote, downvote and comment - Furue implementation
+        void searchUser(); //NO SE HA HECHO LA FUNCIÓN
 
         void upvotePost();
         void downvotePost();
@@ -85,10 +88,10 @@ void Net::createProfile(){
 
     std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.blue("Profile creation")))<<"\n\n";
     std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your desired username: "));
-    std::string username=input.getWord();
-    while(searchProfile(username)>=0){
+    std::string username=input.getRawString(input.getWord());
+    while(profileExists(username) == true){
         std::cout<<screen.text.color.red("That username already exists.\n")+screen.text.style.italic(screen.text.color.green("Please type a different one: "));
-        username=input.getWord();
+        username=input.getRawString(input.getWord());
     }
 
     std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your full name: "));
@@ -120,8 +123,8 @@ void Net::accessProfile(){
 
     std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.blue("Profile Access")))<<"\n\n";
     std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your username: "));
-    std::string username=input.getWord();
-    int i=searchProfile(username);
+    std::string username=input.getRawString(input.getWord());
+    int i=profileExists(username);
     if(i==-1){
         std::cout<<"\n"<<screen.center(screen.text.color.red("Username not found."))<<"\n";
         std::cout<<"\n"<<screen.center(screen.text.color.yellow("Going back to main menu."))<<"\n\n";
@@ -149,7 +152,7 @@ void Net::accessProfile(){
     home();
 }
 
-int Net::searchProfile(std::string username){ //Complexity O(n)
+int Net::profileExists(std::string username){ //Complexity O(n)
     for(ll i=0; i<profiles.size(); i++){
         if(profiles[i]->getUsername()==username) return i;
     }
@@ -166,9 +169,10 @@ void Net::home(){
         std::cout<<"\n"<<screen.text.color.magenta("1.- See Posts")<<"\n";
         std::cout<<"\n"<<screen.text.color.magenta("2.- Order posts")<<"\n";
         std::cout<<"\n"<<screen.text.color.magenta("3.- Create post")<<"\n";
+        std::cout<<"\n"<<screen.text.color.magenta("4.- Search a user")<<"\n";
         std::cout<<"\n"<<screen.text.color.magenta("0.- Go back")<<"\n\n";
         std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to do (0-3): "));
-        q=input.getInt(0,3);
+        q=input.getInt(0,4);
 
         switch(q){
             case 1: //See posts
@@ -178,8 +182,8 @@ void Net::home(){
                 screen.clear();
                 int x;
                 std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.magenta("Order by:")))<<"\n\n";
-                std::cout<<"\n"<<screen.text.color.magenta("1.- Date")<<"\n";
-                std::cout<<"\n"<<screen.text.color.magenta("2.- Votes")<<"\n";
+                std::cout<<"\n"<<screen.text.color.magenta("1.- Date" + (isOrderVotes == false ? screen.text.style.italic(" -> Current order") : "" ))<<"\n";
+                std::cout<<"\n"<<screen.text.color.magenta("2.- Votes" + (isOrderVotes == true ? screen.text.style.italic(" -> Current order") : ""))<<"\n";
                 std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to select (1-2): "));
                 x=input.getInt(1,2);
                 switch(x){
@@ -193,6 +197,10 @@ void Net::home(){
                 break;
             case 3:
                 createPost();
+                break;
+            case 4:
+                searchUser();
+                break;
         }
 
     }while(q!=0);
@@ -212,6 +220,7 @@ void Net::showPosts(){
 void Net::orderByVotes(){ //Merge Sort - Complexity O(n log n)
     vector<Post*> v2(posts.size());
     VotesSplit(posts, v2, 0, posts.size()-1);
+    isOrderVotes=true;
 }
 
 void Net::VotesArray(vector<Post*>& A, vector<Post*>& B, ll low, ll mid, ll high){
@@ -252,6 +261,7 @@ void Net::VotesCopy(vector<Post*>& A, vector<Post*>& B, ll low, ll high){
 
 void Net::orderByDates(){ //Complexity O(1)
     posts=postsIndex;
+    isOrderVotes=false;
 }
 
 void Net::createPost(){
@@ -261,6 +271,25 @@ void Net::createPost(){
     std::string text=input.getString();
     posts.push_back(new Post(posts.size(), *user, text));
     postsIndex.push_back(posts[postsIndex.size()]);
+
+    if(isOrderVotes == true){ //Means it's ordered by votes
+        orderByVotes();
+    }
+}
+
+void Net::searchUser(){
+    screen.clear();
+
+    std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.cyan("Search Profile")))<<"\n\n";
+    std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type their username: "));
+    std::string username=input.getRawString(input.getWord());
+    int i=profileExists(username);
+    if(i==-1){
+        std::cout<<"\n"<<screen.center(screen.text.color.red("Username not found."))<<"\n";
+        std::cout<<"\n"<<screen.center(screen.text.color.yellow("Going back to main menu."))<<"\n\n";
+        waitUser();
+        return;
+    }
 }
 
 void Net::freeMemory(){
@@ -278,11 +307,11 @@ void Net::waitUser(){
 }
 
 void Net::testData(){
-    profiles.push_back(new Profile(0, "Edmundo Canedo Cervantes", "EdCanCe", "contrasena", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.", 2000, 1, 1));
+    profiles.push_back(new Profile(0, "Edmundo Canedo Cervantes", "edcance", "contrasena", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.", 2000, 1, 1));
 
-    profiles.push_back(new Profile(1, "Juan Perez", "JotaPe", "contrasena", "Proin fermentum leo vel orci porta non. Ut tristique est sit amet arcu aliquam, in aliquam purus bibendum. Sed ut perspiciatis unde omnis.", 2000, 1, 1));
+    profiles.push_back(new Profile(1, "Juan Perez", "jotape", "contrasena", "Proin fermentum leo vel orci porta non. Ut tristique est sit amet arcu aliquam, in aliquam purus bibendum. Sed ut perspiciatis unde omnis.", 2000, 1, 1));
 
-    profiles.push_back(new Profile(2, "Ana Martinez", "AnaLaQueTieneLana", "contrasena", "Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper auctor.", 1995, 6, 15));
+    profiles.push_back(new Profile(2, "Ana Martinez", "analaquetienelana", "contrasena", "Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper auctor.", 1995, 6, 15));
 
     posts.push_back(new Post(0, *profiles[0], -12,  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
     posts.push_back(new Post(1, *profiles[1], 5, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
