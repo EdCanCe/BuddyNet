@@ -1,6 +1,6 @@
 /**
 * 
-* BuddyNet - Color Class
+* BuddyNet - TextStyle.h
 * A01645576
 * This class has functions to
 * help render many colors and
@@ -21,36 +21,83 @@
  */
 class Color{
     public:
-        //Renders the given text with a black color
+
+        /**
+         * @brief Renders the given string into a black color.
+         * 
+         * @param text The text that will turn black.
+         * @return std::string The text rendered black.
+         */
         std::string black(const std::string& text){
             return "\033[30m"+text+"\033[39m";
         }
         
-        //Renders the given text with a red color
+        /**
+         * @brief Renders the given string into a red color.
+         * 
+         * @param text The text that will turn red.
+         * @return std::string The text rendered red.
+         */
         std::string red(const std::string& text){
             return "\033[31m"+text+"\033[39m";
         }
 
+        /**
+         * @brief Renders the given string into a green color.
+         * 
+         * @param text The text that will turn green.
+         * @return std::string The text rendered green.
+         */
         std::string green(const std::string& text){
             return "\033[32m"+text+"\033[39m";
         }
 
+        /**
+         * @brief Renders the given string into a yellow color.
+         * 
+         * @param text The text that will turn yellow.
+         * @return std::string The text rendered yellow.
+         */
         std::string yellow(const std::string& text){
             return "\033[33m"+text+"\033[39m";
         }
 
+        /**
+         * @brief Renders the given string into a blue color.
+         * 
+         * @param text The text that will turn blue.
+         * @return std::string The text rendered blue.
+         */
         std::string blue(const std::string& text){
             return "\033[34m"+text+"\033[39m";
         }
 
+        /**
+         * @brief Renders the given string into a magenta color.
+         * 
+         * @param text The text that will magenta red.
+         * @return std::string The text rendered magenta.
+         */
         std::string magenta(const std::string& text){
             return "\033[35m"+text+"\033[39m";
         }
 
+        /**
+         * @brief Renders the given string into a cyan color.
+         * 
+         * @param text The text that will turn cyan.
+         * @return std::string The text rendered cyan.
+         */
         std::string cyan(const std::string& text){
             return "\033[36m"+text+"\033[39m";
         }
 
+        /**
+         * @brief Renders the given string into a white color.
+         * 
+         * @param text The text that will turn white.
+         * @return std::string The text rendered white.
+         */
         std::string white(const std::string& text){
             return "\033[37m"+text+"\033[39m";
         }
