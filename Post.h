@@ -1,3 +1,12 @@
+/**
+ * @file Post.h
+ * @author Edmundo Canedo Cervantes - A01645576
+ * @brief This file contains the Post class, that manages
+ * the posts data.
+ * @version 0.1
+ * @date 2024-09-18
+ * 
+ */
 #ifndef POST_H
 #define POST_H
 
@@ -7,6 +16,12 @@
 #include "Screen.h"
 #define ll long long int
 
+/**
+ * @class Post
+ * 
+ * @brief 
+ * 
+ */
 class Post{
     private:
         ll id;
@@ -14,7 +29,7 @@ class Post{
         std::string text;
         Date date;
         ll votes;
-        Post* fatherPost; //Father post in case it's a comment - Future implementation
+        Post* fatherPost = NULL; //Father post in case it's a comment - Future implementation
     public:
         Post(ll, Profile&, std::string);
         Post(ll, Profile&, ll, std::string);

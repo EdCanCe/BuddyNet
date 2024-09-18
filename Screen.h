@@ -1,12 +1,13 @@
-/*
-* 
-* BuddyNet - Screen.h
-* A01645576
-* This file has functions to retrieve
-* screen data and render text according
-* to the screen size.
-*
-*/
+/**
+ * @file Screen.h
+ * @author Edmundo Canedo Cervantes - A01645576
+ * @brief This file has functions to retrieve
+ * screen data and render text according
+ * to the screen size.
+ * @version 0.1
+ * @date 2024-09-18
+ * 
+ */
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
@@ -96,7 +97,8 @@ void Screen::clear(){
  * @return std::string The string centered.
  */
 std::string Screen::center(std::string s){
-    std::regex ansiCodes("\033\\[([0-9;]*m)"); //Declares how the ANSI escape codes are written.
+     //Portion of code based on https://en.cppreference.com/w/cpp/regex/regex_replace
+    std::regex ansiCodes("\033\\[([0-9;]*m)"); //Declares the ANSI escape codes pattern.
     int n=std::regex_replace(s, ansiCodes, "").size(); //Takes out all of the ANSI escape codes to only take into account the real text, and gets it's size. 
     int width=getWidth();
     int dif=width-n;

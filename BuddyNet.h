@@ -31,6 +31,7 @@ class Net{
         void createPost();
         void accessPost(); //Takes to a menu to upvote, downvote and comment - Furue implementation
         void searchUser(); //NO SE HA HECHO LA FUNCIÓN
+        void modifyProfile(); //NO SE HA HECHO LA FUNCIÓN
 
         void upvotePost();
         void downvotePost();

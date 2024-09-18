@@ -7,7 +7,7 @@
 #include "Input.h"
 
 class Date{
-    public:
+    private:
         int year;
         int month;
         int day;
@@ -15,6 +15,7 @@ class Date{
         int minute;
         int second=-1;
     
+    public:
         Date();
         Date(int, int, int);
         std::string toText();

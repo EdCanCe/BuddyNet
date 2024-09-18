@@ -1,12 +1,13 @@
 /**
-* 
-* BuddyNet - TextStyle.h
-* A01645576
-* This file has functions to
-* help render many colors and
-* styles.
-*
-*/
+ * @file TextStyle.h
+ * @author your name (you@domain.com)
+ * @brief This file has functions to
+ * help render many colors and
+ * styles.
+ * @version 0.1
+ * @date 2024-09-18
+ * 
+ */
 #ifndef TEXT_H
 #define TEXT_H
 
