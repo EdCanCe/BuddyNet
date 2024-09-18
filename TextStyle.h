@@ -103,43 +103,113 @@ class Color{
         }
 };
 
+/**
+ * @class Style
+ * 
+ * @brief This class has functions that add the
+ * ANSI escape code sequence to render styles.
+ *
+ */
 class Style{
     public:
+
+        /**
+         * @brief Renders the given string as bold.
+         * 
+         * @param text The text that will turn bold.
+         * @return std::string The text rendered bold.
+         */
         std::string bold(const std::string& text){
             return "\033[1m" + text + "\033[22m";
         }
 
+        /**
+         * @brief Renders the given string, dimming it's colors.
+         * 
+         * @param text The text that will be dimmed.
+         * @return std::string The text rendered dim.
+         */
         std::string dim(const std::string& text){
             return "\033[2m" + text + "\033[22m";
         }
 
+        /**
+         * @brief Renders the given string in italics.
+         * 
+         * @param text The text that will be italic.
+         * @return std::string The text rendered italic.
+         */
         std::string italic(const std::string& text){
             return "\033[3m" + text + "\033[23m";
         }
 
+        /**
+         * @brief Renders the given string with an underline.
+         * 
+         * @param text The text that will get the underline.
+         * @return std::string The text rendered with the underline.
+         */
         std::string underline(const std::string& text){
             return "\033[4m" + text + "\033[24m";
         }
 
+        /**
+         * @brief Renders the given string blinking.
+         * 
+         * @param text The text that will blink.
+         * @return std::string The text blinking.
+         */
         std::string blinking(const std::string& text){
             return "\033[5m" + text + "\033[25m";
         }
 
+        /**
+         * @brief Renders the given string in reverse.
+         * 
+         * @param text The text that will reverse.
+         * @return std::string The text rendered in reverse.
+         */
         std::string reverse(const std::string& text){
             return "\033[7m" + text + "\033[27m";
         }
 
+        /**
+         * @brief Renders the given string without being able to see it.
+         * 
+         * @param text The text that will turn hidden.
+         * @return std::string The text rendered hidden.
+         */
         std::string hidden(const std::string& text){
             return "\033[8m" + text + "\033[28m";
         }
 
+        /**
+         * @brief Renders the given string with a strikethrough.
+         * 
+         * @param text The text that will get the strikethrough.
+         * @return std::string The text rendered sith the strikethrough.
+         */
         std::string strikethrough(const std::string& text){
             return "\033[9m" + text + "\033[29m";
         }
 };
 
+/**
+ * @class Background
+ * 
+ * @brief This class has functions that add the
+ * ANSI escape code sequence to render backgrounds.
+ *
+ */
 class Background{
     public:
+
+        /**
+         * @brief Renders the given string with a black background.
+         * 
+         * @param text The text that will get the background.
+         * @return std::string The text rendered with the black background.
+         */
         std::string black(const std::string& text){
             return "\033[40m"+text+"\033[49m";
         }
