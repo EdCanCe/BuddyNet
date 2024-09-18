@@ -1,8 +1,8 @@
 /*
 * 
-* BuddyNet - Screen Class
+* BuddyNet - Screen.h
 * A01645576
-* This class has functions to retrieve
+* This file has functions to retrieve
 * screen data and render text according
 * to the screen size.
 *
@@ -21,45 +21,66 @@
 #include <unistd.h>
 #endif
 
-//Declaration of Screen Class
+/**
+ * @class Screen
+ * 
+ * @brief This class has functions that return
+ * data corresponding to the screen, and also
+ * helps to render text styling.
+ *
+ */
 class Screen{
-    //Declaration of Public Methods
+    //Declaration of Public Methods And Atrtributes
     public:
-        Text text;
+        Text text; //Attribute with the text class that enables text styling
         int getWidth();
         int getHeight();
         void clear();
         std::string center(std::string);
 };
 
+/**
+ * @brief Looks up for the users console and gets it's width.
+ * 
+ * @return int - The width of the console.
+ */
 int Screen::getWidth(){
-    #ifdef _WIN32
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    #ifdef _WIN32 //Portion of code based on https://learn.microsoft.com/en-us/windows/console/small-rect-str
+    CONSOLE_SCREEN_BUFFER_INFO csbi; //Gets the info of the current console
     int columns;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-    columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+    columns = csbi.srWindow.Right - csbi.srWindow.Left + 1; //Gets the coordinates of the console's margin and substracts them
     return columns;
-    #else
+    #else //Portion of code based on https://www.delorie.com/djgpp/doc/libc/libc_495.html
     struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     return w.ws_col;
     #endif
 }
 
+/**
+ * @brief Looks up for the users console and gets it's height.
+ * 
+ * @return int - The height of the console.
+ */
 int Screen::getHeight(){
-    #ifdef _WIN32
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    #ifdef _WIN32 //Portion of code based on https://learn.microsoft.com/en-us/windows/console/small-rect-str
+    CONSOLE_SCREEN_BUFFER_INFO csbi; //Gets the info of the current console
     int rows;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-    rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+    rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1; //Gets the coordinates of the console's margin and substracts them
     return rows;
-    #else
-    struct winsize w;
+    #else //Portion of code based on https://www.delorie.com/djgpp/doc/libc/libc_495.html
+    struct winsize w; 
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     return w.ws_row;
     #endif
 }
 
+/**
+ * @brief Clears the screen.
+ * 
+ */
 void Screen::clear(){
     #ifdef _WIN32
     system("cls");
@@ -68,20 +89,25 @@ void Screen::clear(){
     #endif
 }
 
+/**
+ * @brief Centers a given string at the middle of the console.
+ * 
+ * @param s The string to center.
+ * @return std::string The string centered.
+ */
 std::string Screen::center(std::string s){
-    std::regex ansiCodes("\033\\[([0-9;]*m)");
-    int n=std::regex_replace(s, ansiCodes, "").size(); //Size of string without ansi codes
+    std::regex ansiCodes("\033\\[([0-9;]*m)"); //Declares how the ANSI escape codes are written.
+    int n=std::regex_replace(s, ansiCodes, "").size(); //Takes out all of the ANSI escape codes to only take into account the real text, and gets it's size. 
     int width=getWidth();
     int dif=width-n;
-    if(dif>=0){
-        for(int i=0; i<=dif/2; i++){
+    if(dif>=0){ //Checks if the given string is bigger than the console width.
+        for(int i=0; i<=dif/2; i++){ //Adds the needed spaces to center the text.
             s=" "+s;
         }
     }
     return s;
 }
 
-//Creates an Input object that will be used throughout the classes.
-Screen screen;
+Screen screen; //Creates a screen object that will be used throughout the classes.
 
 #endif
