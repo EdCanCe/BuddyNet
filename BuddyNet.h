@@ -10,7 +10,7 @@
 
 class Net{
     private:
-        bool isOrderVotes=0; //Represents it's ordered chronologically
+        bool isOrderVotes=0; //Represents if it's ordered chronologically.
 
         vector<Profile*> profiles;
         vector<Post*> posts;
@@ -261,7 +261,7 @@ void Net::VotesCopy(vector<Post*>& A, vector<Post*>& B, ll low, ll high){
 }
 
 void Net::orderByDates(){ //Complexity O(1)
-    posts=postsIndex;
+    posts=postsIndex; //Since postsIndex is already 
     isOrderVotes=false;
 }
 
