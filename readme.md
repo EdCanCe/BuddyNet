@@ -7,6 +7,8 @@ Por el momento solo cuenta con la opción de crear y acceder a una cuenta, ver, 
 Al ser solo el primer avance, faltan refinar partes. Por ejemplo, en un futuro implementar un algoritmo de camino más corto en grafos para ver la "distancia" que tienen 2 perfiles entre sí, para así verificar si mostrar sus publicaciones o no.
 De la misma manera faltaría implementar un sistema para leer y escribir los datos en archivos, terminar la documentación, permitir realizar votos y comentarios, etc.
 
+Debido a que no conozco a totalidad los temas de estructuras de datos, preferí dejar hasta aquí ésta entrega en caso de que se pueda optimizar alguna parte del proyecto al usarlas.
+
 ### Índice:
 - [BuddyNet](#buddynet)
 - [Índice](#índice)
