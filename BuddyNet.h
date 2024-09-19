@@ -314,16 +314,20 @@ void Net::testData(){
 
     profiles.push_back(new Profile(2, "Ana Martinez", "analaquetienelana", "contrasena", "Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper auctor.", 1995, 6, 15));
 
-    posts.push_back(new Post(0, *profiles[0], -12,  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-    posts.push_back(new Post(1, *profiles[1], 5, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-    posts.push_back(new Post(2, *profiles[2], -3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-    posts.push_back(new Post(3, *profiles[0], 10, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-    posts.push_back(new Post(4, *profiles[1], -8, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-    posts.push_back(new Post(5, *profiles[2], 16, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-    posts.push_back(new Post(6, *profiles[0], -20, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-    posts.push_back(new Post(7, *profiles[1], 4, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-    posts.push_back(new Post(8, *profiles[2], 11, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-    posts.push_back(new Post(9, *profiles[0], 7, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
+    vector<long long int> v={0, 1, 2}, v2={};
+    posts.push_back(new Post(0, *profiles[0],  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
+    posts.push_back(new Post(1, *profiles[1], "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
+    
+    posts.push_back(new Post(2, *profiles[2], v, v2, "Esta positivos"));
+    posts.push_back(new Post(3, *profiles[0], v2, v, "Esta madre debería tener votos negativos"));
+
+    v={0,1};
+    posts.push_back(new Post(4, *profiles[1], v, v2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
+    posts.push_back(new Post(5, *profiles[2], v2, v, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
+
+    v2={2};
+    posts.push_back(new Post(6, *profiles[0], v, v2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
+    posts.push_back(new Post(7, *profiles[1], v2, v, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
 
     postsIndex=posts;
 
