@@ -64,6 +64,7 @@ Post::Post(ll Id, Profile& Author, std::string Text){
     author=&Author;
     text=Text;
     date=Date();
+    
 }
 
 /**

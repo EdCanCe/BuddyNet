@@ -41,8 +41,8 @@ class Net{
 
         void testData();
 
-        /*void loadData(); - Future Implementation
-        void storeData();*/
+        void loadData(); 
+        void storeData();
 
     public:
         void startNet();
@@ -57,7 +57,7 @@ void Net::startNet(){
     
     int q;
 
-    testData();
+    openData();
 
     do{
         screen.clear();
@@ -81,6 +81,7 @@ void Net::startNet(){
     }while(q!=0);
 
     std::cout<<"\n\n"<<screen.center(screen.text.style.blinking(screen.text.color.yellow("Exiting...")))<<"\n\n\n";
+    storeData();
     freeMemory();
 }
 
@@ -305,6 +306,25 @@ void Net::freeMemory(){
 void Net::waitUser(){
     std::cout<<screen.center(screen.text.style.italic(screen.text.color.green("Type enter to continue.")));
     string s=input.getString();
+}
+
+void Net::loadData(){
+
+}
+
+void Net::storeData(){
+	FILE *fp=freopen("database.txt", "w", stdout);
+
+	for(int i=0; i<profiles.size(); i++){
+		profiles[i]->
+	}
+
+	fclose(fp);
+	#ifdef _WIN32
+	freopen("CON", "w", stdout);
+	#else
+	freopen("/dev/tty","w", stdout);
+	#endif
 }
 
 void Net::testData(){
