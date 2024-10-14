@@ -12,7 +12,11 @@
 
 #include <iostream>
 #include "Date.h"
+#include "Structures.h"
+#include "Search.h"
 #define ll long long int
+
+class Search;
 
 /**
  * @class Profile
@@ -30,6 +34,7 @@ class Profile{
         std::string password; //User's password used to access the system.
         std::string description; //User's profile description.
         Date birth; //User's birth date.
+        Stack<Search*> searches; //User's searches (may be other profiles or a post).
 
     //Declaration of public methods.
     public:
@@ -39,6 +44,7 @@ class Profile{
         std::string getUsername();
         std::string getDescription();
         Date& getBirth();
+        Stack<Search*>& getSearches();
         bool validatePassword(std::string Password);
         void setName(std::string);
         void setUsername(std::string);
@@ -111,6 +117,16 @@ std::string Profile::getDescription(){
  */
 Date& Profile::getBirth(){
     return birth;
+}
+
+/**
+ * @brief Returns the list containing the last
+ * 10 searches the user made.
+ * 
+ * @return Stack<std::string>& - The user's searches.
+ */
+Stack<Search*>& Profile::getSearches(){
+    return searches;
 }
 
 /**

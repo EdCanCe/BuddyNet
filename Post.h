@@ -31,7 +31,7 @@ class Post{
         Profile* author; //Pointer that references the author of the post.
         std::string text; //The text that the post posseses.
         Date date; //The date where the post was written.
-        Post* fatherPost = NULL; //Father post in case it's a comment.
+        Post* fatherPost = nullptr; //Father post in case it's a comment.
         vector<ll> upvotes; //Stores the ID of the profiles have upvoted the post.
         vector<ll> downvotes; //Stores the ID of the profiles have downvoted the post.
 
@@ -46,9 +46,10 @@ class Post{
         std::string getText();
         Date& getDate();
         ll getVotes();
-        bool upvote(ll);
-        bool downvote(ll);
+        bool upvote(Profile*);
+        bool downvote(Profile*);
         void print();
+        void printDB();
 };
 
 /**
@@ -172,25 +173,51 @@ ll Post::getVotes(){
     return size;
 }
 
+bool Post::upvote(Profile*){
+    return false;
+}
+
+bool Post::downvote(Profile*){
+    return false;
+}
+
 /**
  * @brief Prints the post in the console.
- * 
  */
 void Post::print(){
     ll votes=getVotes();
     int width=screen.getWidth();
-    for(int i=0; i<width; i++){
-        std::cout<<screen.text.style.dim("═");
+    int fh=(width-1)/2;
+    int sh=width-fh-1;
+    for(int i=0; i<fh; i++){
+        std::cout<<screen.text.style.bold(screen.text.color.green("═"));
     }
-    std::cout<<"\n"<<screen.center(screen.text.style.bold(screen.text.color.green("@"+author->getUsername())));
-    std::cout<<"\n"<<screen.center(screen.text.color.green(author->getName()));
-    std::cout<<"\n"<<screen.center("Votes: " + (votes >= 0 ? screen.text.color.green(input.getString(votes)) : screen.text.color.red(input.getString(votes))) + "   |   " + date.toText())<<"\n";
-    for(int i=0; i<width; i++){
-        std::cout<<screen.text.style.dim("─");
+    std::cout<<screen.text.style.bold(screen.text.color.green("╩"));
+    for(int i=0; i<sh; i++){
+        std::cout<<screen.text.style.bold(screen.text.color.green("═"));
     }
-    std::cout<<"\n"<<text<<"\n";
+
+    std::cout<<"\n";
+
+    std::cout<<screen.center(author->getName())<<"\n";
+    std::cout<<screen.center("@"+author->getUsername())<<"\n";
+    std::cout<<screen.center(screen.text.color.red(input.getString(downvotes.size())+" ↓")+" | "+date.toText()+" | "+screen.text.color.green("↑ "+input.getString(upvotes.size())))<<"\n";
+    std::cout<<screen.center(screen.text.style.bold("ID: "+input.getString(id)))<<"\n";
+
     for(int i=0; i<width; i++){
-        std::cout<<screen.text.style.dim("═");
+        std::cout<<screen.text.color.green("─");
+    }
+    std::cout<<"\n";
+
+    std::cout<<screen.center(text);
+
+    std::cout<<"\n";
+    for(int i=0; i<fh; i++){
+        std::cout<<screen.text.style.bold(screen.text.color.green("═"));
+    }
+    std::cout<<screen.text.style.bold(screen.text.color.green("╦"));
+    for(int i=0; i<sh; i++){
+        std::cout<<screen.text.style.bold(screen.text.color.green("═"));
     }
 }
 

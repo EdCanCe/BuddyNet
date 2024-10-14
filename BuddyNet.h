@@ -6,32 +6,30 @@
 #include "Profile.h"
 #include "Post.h"
 #include "Input.h"
+#include "Sorts.h"
+#include "Search.h"
 #include "Structures.h"
 
 class Net{
     private:
-        bool isOrderVotes=0; //Represents if it's ordered chronologically.
 
         vector<Profile*> profiles;
         vector<Post*> posts;
-        vector<Post*> postsIndex; //To access the posts with their ID;
         Profile* user;
     
         void createProfile();
         void accessProfile(); 
-        int profileExists(std::string);
+        Profile* profileExists(std::string);
+        Post* postExists(ll);
 
         void home(); 
         void showPosts(); // <- Falta añadir menú que muestre si se ven todos o solo de los últimos 3 días, verificar que solo salgan posts de los usuarios a dos de distancia
         void orderByVotes();
-        void VotesArray(vector<Post*>&, vector<Post*>&, ll, ll, ll);
-        void VotesSplit(vector<Post*>&, vector<Post*>&, ll, ll);
-        void VotesCopy(vector<Post*>&, vector<Post*>&, ll, ll);
         void orderByDates();
         void createPost();
-        void accessPost(); //Takes to a menu to upvote, downvote and comment - Furue implementation
-        void searchUser(); //NO SE HA HECHO LA FUNCIÓN
-        void modifyProfile(); //NO SE HA HECHO LA FUNCIÓN
+        void gotoSearch(); //NO SE HA HECHO LA FUNCIÓN
+        void showPost(Post*); //Takes to a menu to upvote, downvote and comment - Furue implementation
+        void showProfile(Profile*); //NO SE HA HECHO LA FUNCIÓN
 
         void upvotePost();
         void downvotePost();
@@ -57,7 +55,8 @@ void Net::startNet(){
     
     int q;
 
-    openData();
+    loadData();
+    testData();
 
     do{
         screen.clear();
@@ -91,7 +90,7 @@ void Net::createProfile(){
     std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.blue("Profile creation")))<<"\n\n";
     std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your desired username: "));
     std::string username=input.getRawString(input.getWord());
-    while(profileExists(username) == true){
+    while(profileExists(username) != 0){
         std::cout<<screen.text.color.red("That username already exists.\n")+screen.text.style.italic(screen.text.color.green("Please type a different one: "));
         username=input.getRawString(input.getWord());
     }
@@ -126,8 +125,8 @@ void Net::accessProfile(){
     std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.blue("Profile Access")))<<"\n\n";
     std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your username: "));
     std::string username=input.getRawString(input.getWord());
-    int i=profileExists(username);
-    if(i==-1){
+    Profile* pPtr=profileExists(username);
+    if(pPtr==0){
         std::cout<<"\n"<<screen.center(screen.text.color.red("Username not found."))<<"\n";
         std::cout<<"\n"<<screen.center(screen.text.color.yellow("Going back to main menu."))<<"\n\n";
         waitUser();
@@ -137,12 +136,12 @@ void Net::accessProfile(){
     int c=1;
     std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your user's password: "));
     std::string password=input.getPassword();
-    while(!profiles[i]->validatePassword(password) && c<3){
+    while(!pPtr->validatePassword(password) && c<3){
         std::cout<<screen.text.color.red("Not the correct passowrd. Attempt No. "+input.getString(c)+" of 3.\n")+screen.text.style.italic(screen.text.color.green("Please try again: "));
         password=input.getPassword();
         c++;
     }
-    if(!profiles[i]->validatePassword(password)){
+    if(!pPtr->validatePassword(password)){
         std::cout<<screen.text.color.red("Not the correct passowrd. Attempt No. "+input.getString(c)+" of 3.\n");
         std::cout<<"\n"<<screen.center(screen.text.color.red("Too many attempts."))<<"\n";
         std::cout<<"\n"<<screen.center(screen.text.color.yellow("Going back to main menu."))<<"\n\n";
@@ -150,15 +149,22 @@ void Net::accessProfile(){
         return;
     }
 
-    user=profiles[i];
+    user=pPtr;
     home();
 }
 
-int Net::profileExists(std::string username){ //Complexity O(n)
+Profile* Net::profileExists(std::string username){ //Complexity O(n)
     for(ll i=0; i<profiles.size(); i++){
-        if(profiles[i]->getUsername()==username) return i;
+        if(profiles[i]->getUsername()==username) return profiles[i];
     }
-    return -1;
+    return 0;
+}
+
+Post* Net::postExists(ll postID){ //Complexity O(n)
+    for(ll i=0; i<posts.size(); i++){
+        if(posts[i]->getId()==postID) return posts[i];
+    }
+    return 0;
 }
 
 void Net::home(){
@@ -168,11 +174,11 @@ void Net::home(){
         screen.clear();
 
         std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.magenta("BUDDY NET -> HOME")))<<"\n\n";
-        std::cout<<"\n"<<screen.text.color.magenta("1.- See Posts")<<"\n";
-        std::cout<<"\n"<<screen.text.color.magenta("2.- Order posts")<<"\n";
-        std::cout<<"\n"<<screen.text.color.magenta("3.- Create post")<<"\n";
-        std::cout<<"\n"<<screen.text.color.magenta("4.- Search a user")<<"\n";
-        std::cout<<"\n"<<screen.text.color.magenta("0.- Go back")<<"\n\n";
+        std::cout<<"\n"<<screen.text.color.green("1.- See Posts")<<"\n";
+        std::cout<<"\n"<<screen.text.color.green("2.- Order posts")<<"\n";
+        std::cout<<"\n"<<screen.text.color.green("3.- Create post")<<"\n";
+        std::cout<<"\n"<<screen.text.color.green("4.- Go to the search section")<<"\n";
+        std::cout<<"\n"<<screen.text.color.green("0.- Go back")<<"\n\n";
         std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to do (0-3): "));
         q=input.getInt(0,4);
 
@@ -184,8 +190,8 @@ void Net::home(){
                 screen.clear();
                 int x;
                 std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.magenta("Order by:")))<<"\n\n";
-                std::cout<<"\n"<<screen.text.color.magenta("1.- Date" + (isOrderVotes == false ? screen.text.style.italic(" -> Current order") : "" ))<<"\n";
-                std::cout<<"\n"<<screen.text.color.magenta("2.- Votes" + (isOrderVotes == true ? screen.text.style.italic(" -> Current order") : ""))<<"\n";
+                std::cout<<"\n"<<screen.text.color.green("1.- Date" + (sorts.currentSort() == false ? screen.text.style.italic(" -> Current order") : "" ))<<"\n";
+                std::cout<<"\n"<<screen.text.color.green("2.- Votes" + (sorts.currentSort() == true ? screen.text.style.italic(" -> Current order") : ""))<<"\n";
                 std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to select (1-2): "));
                 x=input.getInt(1,2);
                 switch(x){
@@ -201,7 +207,7 @@ void Net::home(){
                 createPost();
                 break;
             case 4:
-                searchUser();
+                gotoSearch();
                 break;
         }
 
@@ -211,59 +217,38 @@ void Net::home(){
 void Net::showPosts(){
     screen.clear();
     std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.green("BUDDY NET -> POSTS")))<<"\n\n\n";
-    for(ll i=0; i<posts.size(); i++){
-        posts[i]->print();
-        cout<<"\n\n\n";
+
+    ll ps=posts.size();
+    if(ps==0){
+        std::cout<<"\n"<<screen.center(screen.text.color.red("There are no posts to show."))<<"\n";
+        std::cout<<"\n"<<screen.center(screen.text.color.yellow("Going back home."))<<"\n\n";
+        waitUser();
+        return;
     }
+
+    ps--;
+    for(ll i=0; i<ps; i++){
+        posts[i]->print();
+        std::cout<<"\n";
+        for(int j=0; j<3; j++)std::cout<<screen.center(screen.text.style.bold(screen.text.color.green("║")))<<"\n";
+    }
+    posts[ps]->print();
+    std::cout<<"\n\n";
+
     std::cout<<screen.center(screen.text.color.yellow("Going back home."))<<"\n\n";
     waitUser();
 }
 
 void Net::orderByVotes(){ //Merge Sort - Complexity O(n log n)
+    sorts.setVotes();
     vector<Post*> v2(posts.size());
-    VotesSplit(posts, v2, 0, posts.size()-1);
-    isOrderVotes=true;
+    sorts.mergeSplit(posts, v2, 0, posts.size()-1);
 }
 
-void Net::VotesArray(vector<Post*>& A, vector<Post*>& B, ll low, ll mid, ll high){
-    ll fp=low, sp=mid+1;
-	for(ll i=low; i<=high; i++){
-		if(fp==mid+1){
-			B[i]=A[sp];
-			sp++;
-		}else if(sp==high+1){
-			B[i]=A[fp];
-			fp++;
-		}else if(A[fp]->getVotes()<A[sp]->getVotes()){
-			B[i]=A[fp];
-			fp++;
-		}else{
-			B[i]=A[sp];
-			sp++;
-		}
-	}
-}
-
-void Net::VotesSplit(vector<Post*>& A, vector<Post*>& B, ll low, ll high){
-    if(high-low<1){
-		return;
-	}
-	int mid=(low+high)/2;
-	VotesSplit(A, B, low, mid);
-	VotesSplit(A, B, mid+1, high);
-	VotesArray(A, B, low, mid, high);
-	VotesCopy(A,B, low, high);
-}
-
-void Net::VotesCopy(vector<Post*>& A, vector<Post*>& B, ll low, ll high){
-    for(int i=low; i<=high; i++){
-		A[i]=B[i];
-	}
-}
-
-void Net::orderByDates(){ //Complexity O(1)
-    posts=postsIndex; //Since postsIndex is already 
-    isOrderVotes=false;
+void Net::orderByDates(){ //Merge Sort - Complexity O(n log n)
+    sorts.setDates();
+    vector<Post*> v2(posts.size());
+    sorts.mergeSplit(posts, v2, 0, posts.size()-1);
 }
 
 void Net::createPost(){
@@ -272,26 +257,100 @@ void Net::createPost(){
     std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your post: "));
     std::string text=input.getString();
     posts.push_back(new Post(posts.size(), *user, text));
-    postsIndex.push_back(posts[postsIndex.size()]);
 
-    if(isOrderVotes == true){ //Means it's ordered by votes
+    if(sorts.currentSort() == true){ //Means it's ordered by votes
         orderByVotes();
     }
 }
 
-void Net::searchUser(){
+void Net::gotoSearch(){
     screen.clear();
+    std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.cyan("Search")))<<"\n\n";
+    std::cout<<"\n"<<screen.center(screen.text.style.italic(screen.text.color.green("Type \"[XX]\" to go to that post. Only type the text to go to a username")))<<"\n";
+    std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your search: "));
+    std::string searchText=input.getWord();
 
-    std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.cyan("Search Profile")))<<"\n\n";
-    std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type their username: "));
-    std::string username=input.getRawString(input.getWord());
-    int i=profileExists(username);
-    if(i==-1){
-        std::cout<<"\n"<<screen.center(screen.text.color.red("Username not found."))<<"\n";
-        std::cout<<"\n"<<screen.center(screen.text.color.yellow("Going back to main menu."))<<"\n\n";
-        waitUser();
-        return;
+    if(searchText[0]=='['){ //It's a post
+        searchText=input.getRawString(searchText);
+        Post* pPtr=postExists(input.getInt(searchText));
+        if(pPtr==0){ //Post doesn't exist
+            std::cout<<"\n"<<screen.center(screen.text.color.red("Post not found."))<<"\n";
+            std::cout<<"\n"<<screen.center(screen.text.color.yellow("Going back to main menu."))<<"\n\n";
+            waitUser();
+            return;
+        }else{ //Post does exist
+            user->getSearches().push(new Search(searchText, false));
+            showPost(pPtr);
+        }
+    }else{ //It's a user
+        Profile* pPtr=profileExists(searchText);
+        if(pPtr==0){ //User doesn't exist
+            std::cout<<"\n"<<screen.center(screen.text.color.red("Username not found."))<<"\n";
+            std::cout<<"\n"<<screen.center(screen.text.color.yellow("Going back to main menu."))<<"\n\n";
+            waitUser();
+            return;
+        }else{ //User does exist
+            user->getSearches().push(new Search(searchText, true));
+            showProfile(pPtr);
+        }
     }
+}
+
+void Net::showPost(Post* pPtr){
+    int q;
+
+    do{
+        screen.clear();
+
+        std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.green("Post")))<<"\n\n";
+        pPtr->print();
+        std::cout<<"\n\n";
+
+        std::cout<<"\n"<<screen.text.color.green("1.- Upvote the post")<<"\n";
+        std::cout<<"\n"<<screen.text.color.green("2.- Downvote the post")<<"\n";
+        std::cout<<"\n"<<screen.text.color.green("3.- Redirect to the post's author")<<"\n";
+        std::cout<<"\n"<<screen.text.color.green("4.- Comment this post")<<"\n";
+        std::cout<<"\n"<<screen.text.color.green("5.- See this post's comments")<<"\n";
+        std::cout<<"\n"<<screen.text.color.green("0.- Go back")<<"\n\n";
+        std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to do (0-3): "));
+        q=input.getInt(0,4);
+
+        switch(q){
+            case 1:
+                bool x=pPtr->upvote(user);
+                if(x==true){
+                    std::cout<<"\n"<<screen.center(screen.text.color.green("The post was upvoted succesfully!"))<<"\n";
+                }else{
+                    std::cout<<"\n"<<screen.center(screen.text.color.red("The post coulnd't be upvoted."))<<"\n";
+                }
+                std::cout<<screen.center(screen.text.color.yellow("Going back home."))<<"\n\n";
+                waitUser();
+                return;
+                break;
+            case 2: //Order posts
+                bool x=pPtr->downvote(user);
+                if(x==true){
+                    std::cout<<"\n"<<screen.center(screen.text.color.green("The post was downvoted succesfully!"))<<"\n";
+                }else{
+                    std::cout<<"\n"<<screen.center(screen.text.color.red("The post coulnd't be downvoted."))<<"\n";
+                }
+                std::cout<<screen.center(screen.text.color.yellow("Going back home."))<<"\n\n";
+                waitUser();
+                return;
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+        }
+
+    }while(q!=0);
+}
+
+void Net::showProfile(Profile* pPtr){
+    
 }
 
 void Net::freeMemory(){
@@ -313,18 +372,18 @@ void Net::loadData(){
 }
 
 void Net::storeData(){
-	FILE *fp=freopen("database.txt", "w", stdout);
+    FILE *fp=freopen("database.txt", "w", stdout);
 
-	for(int i=0; i<profiles.size(); i++){
-		profiles[i]->
-	}
+    for(int i=0; i<profiles.size(); i++){
+        
+    }
 
-	fclose(fp);
-	#ifdef _WIN32
-	freopen("CON", "w", stdout);
-	#else
-	freopen("/dev/tty","w", stdout);
-	#endif
+    fclose(fp);
+    #ifdef _WIN32
+    freopen("CON", "w", stdout);
+    #else
+    freopen("/dev/tty","w", stdout);
+    #endif
 }
 
 void Net::testData(){
@@ -348,9 +407,6 @@ void Net::testData(){
     v2={2};
     posts.push_back(new Post(6, *profiles[0], v, v2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
     posts.push_back(new Post(7, *profiles[1], v2, v, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-
-    postsIndex=posts;
-
 }
 
 #endif

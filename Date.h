@@ -13,12 +13,15 @@ class Date{
         int day;
         int hour;
         int minute;
-        int second=-1;
+        int second; //Won't be printed, only used to sort the posts.
     
     public:
         Date();
         Date(int, int, int);
+        Date(int, int, int, int, int, int);
         std::string toText();
+
+        friend bool operator<(const Date&, const Date&);
 };
 
 Date::Date(){
@@ -37,12 +40,33 @@ Date::Date(int Year, int Month, int Day){
     year=Year;
     month=Month;
     day=Day;
+    hour=0;
+    minute=0;
+    second=-1;
+}
+
+Date::Date(int Year, int Month, int Day, int Hour, int Minute, int Second){
+    year=Year;
+    month=Month;
+    day=Day;
+    hour=Hour;
+    minute=Minute;
+    second=Second;
 }
 
 std::string Date::toText(){
     std::string s=input.getString(0+year)+"/"+input.getString(month)+"/"+input.getString(day);
-    if(second!=-1) s=s+" "+input.getString(hour)+":"+input.getString(minute)+":"+input.getString(second);
+    if(second!=-1) s=s+" "+input.getString(hour)+":"+input.getString(minute);
     return s;
+}
+
+bool operator<(const Date& l, const Date& r){
+    if (l.year != r.year) return l.year<r.year;
+    if (l.month != r.month) return l.month<r.month;
+    if (l.day != r.day) return l.day<r.day;
+    if (l.hour != r.hour) return l.hour<r.hour;
+    if (l.minute != r.minute) return l.minute<r.minute;
+    return l.second<r.second;
 }
 
 #endif
