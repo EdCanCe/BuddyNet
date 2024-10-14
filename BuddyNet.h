@@ -7,7 +7,7 @@
 #include "Post.h"
 #include "Input.h"
 #include "Sorts.h"
-#include "Search.h"
+#include "Notification.h"
 #include "Structures.h"
 
 class Net{
@@ -30,9 +30,9 @@ class Net{
         void gotoSearch(); //NO SE HA HECHO LA FUNCIÓN
         void showPost(Post*); //Takes to a menu to upvote, downvote and comment - Furue implementation
         void showProfile(Profile*); //NO SE HA HECHO LA FUNCIÓN
-
         void upvotePost();
         void downvotePost();
+        void gotoNotis();
 
         void freeMemory();
         void waitUser();
@@ -160,7 +160,8 @@ Profile* Net::profileExists(std::string username){ //Complexity O(n)
     return 0;
 }
 
-Post* Net::postExists(ll postID){ //Complexity O(n)
+Post* Net::postExists(ll postID){
+    std::cout<<screen.text.color.red("AAAAA "+input.getString(postID)+" AAAAA");
     for(ll i=0; i<posts.size(); i++){
         if(posts[i]->getId()==postID) return posts[i];
     }
@@ -178,9 +179,10 @@ void Net::home(){
         std::cout<<"\n"<<screen.text.color.green("2.- Order posts")<<"\n";
         std::cout<<"\n"<<screen.text.color.green("3.- Create post")<<"\n";
         std::cout<<"\n"<<screen.text.color.green("4.- Go to the search section")<<"\n";
+        std::cout<<"\n"<<screen.text.color.green("5.- View notifications")<<"\n";
         std::cout<<"\n"<<screen.text.color.green("0.- Go back")<<"\n\n";
-        std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to do (0-3): "));
-        q=input.getInt(0,4);
+        std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to do (0-5): "));
+        q=input.getInt(0,5);
 
         switch(q){
             case 1: //See posts
@@ -208,6 +210,9 @@ void Net::home(){
                 break;
             case 4:
                 gotoSearch();
+                break;
+            case 5:
+                gotoNotis();
                 break;
         }
 
@@ -266,11 +271,12 @@ void Net::createPost(){
 void Net::gotoSearch(){
     screen.clear();
     std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.cyan("Search")))<<"\n\n";
-    std::cout<<"\n"<<screen.center(screen.text.style.italic(screen.text.color.green("Type \"[XX\" to go to that post. Only type the text to go to a username")))<<"\n";
+    std::cout<<"\n"<<screen.center(screen.text.style.italic(screen.text.color.green("Type \"[XX\" to go to that post. Only type the text to go to a username.")))<<"\n";
     std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your search: "));
     std::string searchText=input.getWord();
 
     if(searchText[0]=='['){ //It's a post
+        //Añadir algo que confirme que sea número
         searchText=input.getRawString(searchText);
         Post* pPtr=postExists(input.getInt(searchText));
         if(pPtr==0){ //Post doesn't exist
@@ -279,7 +285,6 @@ void Net::gotoSearch(){
             waitUser();
             return;
         }else{ //Post does exist
-            user->getSearches().push(new Search(searchText, false));
             showPost(pPtr);
         }
     }else{ //It's a user
@@ -290,7 +295,6 @@ void Net::gotoSearch(){
             waitUser();
             return;
         }else{ //User does exist
-            user->getSearches().push(new Search(searchText, true));
             showProfile(pPtr);
         }
     }
@@ -351,6 +355,10 @@ void Net::showPost(Post* pPtr){
 }
 
 void Net::showProfile(Profile* pPtr){
+    
+}
+
+void Net::gotoNotis(){
     
 }
 

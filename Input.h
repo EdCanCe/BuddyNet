@@ -71,12 +71,11 @@ std::string Input::getString(ll a){
 }
 
 std::string Input::getWord(){
-    std::string s;
-    std::getline(std::cin, s);
+    std::string s=getString();
     for(ll i=0; i<s.size(); i++){
         if(s[i]==' '){
             std::cout<<screen.text.color.red("It cannot contain spaces\n")+screen.text.style.italic(screen.text.color.green("Try again: "));
-            std::getline(std::cin, s);
+            s=getString();
             i=0;
         }
     }
@@ -92,18 +91,21 @@ std::string Input::getPassword(){
 }
 
 std::string Input::getRawString(std::string s){
-    int diff='a'-'A';
+    std::string x="";
+    char c;
     for(int i=0; i<s.size(); i++){
-        s[i]=std::tolower(s[i]);
+        c=s[i];
+        if(c>='A' && c<='Z') x.push_back(std::tolower(c));
+        else if((c>='a' && c<='z') || (c>='0' && c<='9')) x.push_back(c);
     }
-    return s;
+    return x;
 }
 
 char Input::getChar(){
     std::string s;
     s=getString();
     while(s.size()>1){
-        std::cout<<screen.text.color.red("Only enter one character\n")+screen.text.style.italic(screen.text.color.green("Try again: "));
+        std::cout<<screen.text.color.red("Only enterr one character\n")+screen.text.style.italic(screen.text.color.green("Try again: "));
         s=getString();
     }
     return s[0];

@@ -60,6 +60,7 @@ class Stack{
     public:
         bool empty();
         T top();
+        void pop();
         void push(T);
 };
 
@@ -71,6 +72,22 @@ bool Stack<T>::empty(){
 template <class T>
 T Stack<T>::top(){
     return head->value;
+}
+
+template <class T>
+void Stack<T>::pop(){
+    if(empty()) return;
+    size--;
+    if(size>=2){
+        Node<T>* aux=head->next;
+        delete head;
+        head=aux;
+        head->prev=0;
+    }else{
+        head=0;
+        tail=0;
+    }
+    
 }
 
 template <class T>
