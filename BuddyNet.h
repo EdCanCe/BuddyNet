@@ -266,7 +266,7 @@ void Net::createPost(){
 void Net::gotoSearch(){
     screen.clear();
     std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.cyan("Search")))<<"\n\n";
-    std::cout<<"\n"<<screen.center(screen.text.style.italic(screen.text.color.green("Type \"[XX]\" to go to that post. Only type the text to go to a username")))<<"\n";
+    std::cout<<"\n"<<screen.center(screen.text.style.italic(screen.text.color.green("Type \"[XX\" to go to that post. Only type the text to go to a username")))<<"\n";
     std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your search: "));
     std::string searchText=input.getWord();
 
@@ -313,11 +313,12 @@ void Net::showPost(Post* pPtr){
         std::cout<<"\n"<<screen.text.color.green("5.- See this post's comments")<<"\n";
         std::cout<<"\n"<<screen.text.color.green("0.- Go back")<<"\n\n";
         std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type the number corresponding to what you want to do (0-3): "));
-        q=input.getInt(0,4);
+        q=input.getInt(0,5);
 
+        bool x;
         switch(q){
             case 1:
-                bool x=pPtr->upvote(user);
+                x=pPtr->upvote(user);
                 if(x==true){
                     std::cout<<"\n"<<screen.center(screen.text.color.green("The post was upvoted succesfully!"))<<"\n";
                 }else{
@@ -328,7 +329,7 @@ void Net::showPost(Post* pPtr){
                 return;
                 break;
             case 2: //Order posts
-                bool x=pPtr->downvote(user);
+                x=pPtr->downvote(user);
                 if(x==true){
                     std::cout<<"\n"<<screen.center(screen.text.color.green("The post was downvoted succesfully!"))<<"\n";
                 }else{
