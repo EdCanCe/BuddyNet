@@ -31,23 +31,22 @@ class Post{
         Profile* author; //Pointer that references the author of the post.
         std::string text; //The text that the post posseses.
         Date date; //The date where the post was written.
-        Post* fatherPost = nullptr; //Father post in case it's a comment.
-        vector<ll> upvotes; //Stores the ID of the profiles have upvoted the post.
-        vector<ll> downvotes; //Stores the ID of the profiles have downvoted the post.
+        vector<Profile*> upvotes; //Stores the profiles that have upvoted the post.
+        vector<Profile*> downvotes; //Stores the profiles that have downvoted the post.
 
     //Declaration of public attributes.
     public:
         Post(ll, Profile&, std::string);
-        Post(ll, Profile&, std::string, Post&);
-        Post(ll, Profile&, vector<ll>&, vector<ll>&, std::string);
-        Post(ll, Profile&, vector<ll>&, vector<ll>&, std::string, Post&);
+        Post(ll, Profile&, vector<Profile*>&, vector<Profile*>&, std::string);
         ll getId();
         Profile& getAuthor();
         std::string getText();
         Date& getDate();
         ll getVotes();
+        vector<Profile*>& getVotes(bool);
         bool upvote(Profile*);
         bool downvote(Profile*);
+        bool erasevote(Profile*);
         void print();
         void printDB();
 };
@@ -70,24 +69,6 @@ Post::Post(ll Id, Profile& Author, std::string Text){
 
 /**
  * @brief Constructs a new Post Object.
- * This constructor is used for a new post that is a comment.
- * 
- * @param Id The unique ID of the Post.
- * @param Author The Author of the post.
- * @param Text The content of the post.
- * @param FatherPost The post this is a comment on.
- */
-Post::Post(ll Id, Profile& Author, std::string Text, Post& FatherPost){
-    id=Id;
-    author=&Author;
-    text=Text;
-    date=Date();
-    fatherPost=&FatherPost;
-}
-
-
-/**
- * @brief Constructs a new Post Object.
  * This constructor is used to load a post from
  * the database that's not a comment.
  * 
@@ -97,28 +78,7 @@ Post::Post(ll Id, Profile& Author, std::string Text, Post& FatherPost){
  * @param Downvotes The ID of the profiles that downvoted the post.
  * @param Text The content of the post.
  */
-Post::Post(ll Id, Profile& Author, vector<ll>& Upvotes, vector<ll>& Downvotes, std::string Text){
-    id=Id;
-    author=&Author;
-    upvotes=Upvotes;
-    downvotes=Downvotes;
-    text=Text;
-    date=Date();
-}
-
-/**
- * @brief Constructs a new Post Object.
- * This constructor is used to load a post from
- * the database that is a comment.
- * 
- * @param Id The unique ID of the Post.
- * @param Author The Author of the post.
- * @param Upvotes The ID of the profiles that upvoted the post.
- * @param Downvotes The ID of the profiles that downvoted the post.
- * @param Text The content of the post.
- * @param FatherPost The post this is a comment on.
- */
-Post::Post(ll Id, Profile& Author, vector<ll>& Upvotes, vector<ll>& Downvotes, std::string Text, Post& FatherPost){
+Post::Post(ll Id, Profile& Author, vector<Profile*>& Upvotes, vector<Profile*>& Downvotes, std::string Text){
     id=Id;
     author=&Author;
     upvotes=Upvotes;
@@ -173,12 +133,36 @@ ll Post::getVotes(){
     return size;
 }
 
-bool Post::upvote(Profile*){
-    return false;
+vector<Profile*>& Post::getVotes(bool q){
+    if(q==0) return downvotes;
+    return upvotes;
 }
 
-bool Post::downvote(Profile*){
-    return false;
+bool Post::upvote(Profile* pPtr){
+    if(pPtr->isInList(upvotes)!=-1 || pPtr->isInList(downvotes)!=-1) return false;
+    upvotes.push_back(pPtr);
+    return true;
+}
+
+bool Post::downvote(Profile* pPtr){
+    if(pPtr->isInList(upvotes)!=-1 || pPtr->isInList(downvotes)!=-1) return false;
+    downvotes.push_back(pPtr);
+    return true;
+}
+
+bool Post::erasevote(Profile* pPtr){
+    bool x=false;
+    ll q=pPtr->isInList(upvotes);
+    if(q!=-1){
+        upvotes.erase(upvotes.begin()+q);
+        x=true;
+    }
+    q=pPtr->isInList(downvotes);
+    if(q!=-1){
+        downvotes.erase(downvotes.begin()+q);
+        x=true;
+    }
+    return x;
 }
 
 /**

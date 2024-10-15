@@ -35,6 +35,7 @@ class Profile{
         std::string description; //User's profile description.
         Date birth; //User's birth date.
         Stack<Notification*> notifications; //User's notifications (may be other profiles or a post).
+        vector<Profile*> follows; //User's follows.
 
     //Declaration of public methods.
     public:
@@ -45,11 +46,17 @@ class Profile{
         std::string getDescription();
         Date& getBirth();
         Stack<Notification*>& getNotifications();
+        vector<Profile*>& getFollows();
         bool validatePassword(std::string Password);
+        ll isInList(vector<Profile*>&, Profile*);
+        ll isInList(vector<Profile*>&);
         void setName(std::string);
         void setUsername(std::string);
         void setPassword(std::string);
         void setDescription(std::string);
+        bool addFollow(Profile*);
+        bool removeFollow(Profile*);
+        void print();
 };
 
 /**
@@ -130,15 +137,52 @@ Stack<Notification*>& Profile::getNotifications(){
 }
 
 /**
+ * @brief Returns a list containing the follows the
+ * user has.
+ * 
+ * @return vector<Profile*>& - The user's follows.
+ */
+vector<Profile*>& Profile::getFollows(){
+    return follows;
+}
+
+/**
  * @brief Verifies that the user's password matches the one
  * given as parameter.
  * 
  * @param Password The string that will be compared to the user's
  * password.
- * @return TRUE if the passwords are the same. FALSE if The passwords are different.
+ * @return TRUE if the passwords are the same. FALSE if the passwords are different.
  */
 bool Profile::validatePassword(std::string Password){
     return password==Password;
+}
+
+/**
+ * @brief Verifies if the user is in a vector.
+ * 
+ * @param profiles The vector.
+ * @param pPtr The user to verify.
+ * @return The index where the profile is.
+ */
+ll Profile::isInList(vector<Profile*>& profiles, Profile* pPtr){
+    for(ll i=0; i<profiles.size(); i++){
+        if(profiles[i]==pPtr) return i;
+    }
+    return -1;
+}
+
+/**
+ * @brief Verifies if the user is in a vector.
+ * 
+ * @param profiles The vector.
+ * @return The index where the profile is.
+ */
+ll Profile::isInList(vector<Profile*>& profiles){
+    for(ll i=0; i<profiles.size(); i++){
+        if(profiles[i]==this) return i;
+    }
+    return -1;
 }
 
 /**
@@ -176,6 +220,56 @@ void Profile::setPassword(std::string Password){
  */
 void Profile::setDescription(std::string Description){
     description=Description;
+}
+
+/**
+ * @brief Adds a follow to the user.
+ * 
+ * @param pPtr  The user to follow.
+ * @return TRUE if the follow was succesful. FALSE if the follow didn't succeed.
+ */
+bool Profile::addFollow(Profile* pPtr){
+    if(isInList(follows, pPtr)==-1){
+        follows.push_back(pPtr);
+        return true;
+    }
+    return false;
+}
+
+/**
+ * @brief Removes a follow to the user.
+ * 
+ * @param pPtr  The user to remove the follow.
+ * @return TRUE if the unfollow was succesful. FALSE if the unfollow didn't succeed.
+ */
+bool Profile::removeFollow(Profile* pPtr){
+    ll q=isInList(follows, pPtr);
+    if(q!=-1){
+        follows.erase(follows.begin()+q);
+        return true;
+    }
+    return false;
+}
+
+/**
+ * @brief Prints the profile in the console.
+ */
+void Profile::print(){
+    int width=screen.getWidth();
+    for(int i=0; i<width; i++){
+        std::cout<<screen.text.style.bold(screen.text.color.green("═"));
+    }
+    std::cout<<"\n";
+
+    std::cout<<screen.center(name)<<"\n";
+    std::cout<<screen.center("@"+username)<<"\n";
+    std::cout<<screen.center("Birthday: "+birth.toText())<<"\n\n";
+    std::cout<<screen.center(description);
+
+    std::cout<<"\n";
+    for(int i=0; i<width; i++){
+        std::cout<<screen.text.style.bold(screen.text.color.green("═"));
+    }
 }
 
 #endif

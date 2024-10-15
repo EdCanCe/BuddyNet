@@ -11,6 +11,7 @@
 #define STRUCTURES_H
 
 #include <vector> //After learning how it works implement it manually
+#define ll long long int
 using namespace std;
 
 template <class T> class Stack;
@@ -54,19 +55,19 @@ template <class T>
 class Stack{
     private:
         Node<T>* head;
-        Node<T>* tail;
-        int size=0;
+        ll sze=0;
 
     public:
         bool empty();
         T top();
         void pop();
         void push(T);
+        ll size();
 };
 
 template <class T>
 bool Stack<T>::empty(){
-    return size==0;
+    return sze==0;
 }
 
 template <class T>
@@ -77,37 +78,30 @@ T Stack<T>::top(){
 template <class T>
 void Stack<T>::pop(){
     if(empty()) return;
-    size--;
-    if(size>=2){
-        Node<T>* aux=head->next;
+    sze--;
+    if(sze==0){
         delete head;
-        head=aux;
-        head->prev=0;
-    }else{
         head=0;
-        tail=0;
     }
-    
+    Node<T>* aux= sze>0 ? head->next : 0;
+    delete head;
+    head=aux;
 }
 
 template <class T>
 void Stack<T>::push(T x){
-    size++;
-    if(size==1){
+    if(empty()){
         head=new Node(x);
-        tail=head;
     }else{
         Node<T>* aux=new Node(x, head, 1);
-        head->prev=aux;
         head=aux;
     }
-    if(size==11){ //Limits the size to ten
-        Node<T>* aux=tail->prev;
-        delete tail;
-        tail=aux;
-        tail->next=0;
-        size--;
-    }
+    sze++;
+}
+
+template <class T>
+ll Stack<T>::size(){
+    return sze;
 }
 
 template <class T>
@@ -115,7 +109,7 @@ class Queue{
     private:
         Node<T>* head;
         Node<T>* tail;
-        int size=0;
+        ll sze=0;
 
     public:
         bool empty();
@@ -126,7 +120,7 @@ class Queue{
 
 template <class T>
 bool Queue<T>::empty(){
-    return size==0;
+    return sze==0;
 }
 
 template <class T>
@@ -136,8 +130,8 @@ T Queue<T>::front(){
 
 template <class T>
 void Queue<T>::push(T x){
-    size++;
-    if(size==1){
+    sze++;
+    if(sze==1){
         head=new Node(x);
         tail=head;
     }else{
@@ -154,7 +148,7 @@ void Queue<T>::pop(){
     delete head;
     head=aux;
     aux->prev=0;
-    size--;
+    sze--;
 }
 
 #endif

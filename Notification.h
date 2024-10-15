@@ -22,7 +22,7 @@ class Notification{
         Date date;
         int typeOfNotification; //The type of notification the user had. 0=Post comment, 1=Profile follower, 2=Post liked.
         bool interacted;
-        Post* post;
+        Post* post; //If is the comment it's the post of the comment.
         Profile* profile;
 
     public:
@@ -33,8 +33,8 @@ class Notification{
         Date& getDate();
         int getType();
         bool hasInteracted();
-        Post& getPost();
-        Profile& getProfile();
+        Post* getPost();
+        Profile* getProfile();
         void print();
 };
 
@@ -76,12 +76,35 @@ bool Notification::hasInteracted(){
     return interacted;
 }
 
-Post& Notification::getPost(){
-    return *post;
+Post* Notification::getPost(){
+    return post;
 }
 
-Profile& Notification::getProfile(){
-    return *profile;
+Profile* Notification::getProfile(){
+    return profile;
+}
+
+void Notification::print(){
+    int width=screen.getWidth();
+    for(int i=0; i<width; i++){
+        std::cout<<screen.text.style.bold(screen.text.color.green("═"));
+    }
+    std::cout<<"\n";
+
+    if(typeOfNotification==0){ //Post comment
+        std::cout<<screen.center(screen.text.style.bold("YOU'VE RECIVED A COMMENT!"))<<"\n";
+    }else if(typeOfNotification==1){ //Profile follower
+        std::cout<<screen.center(screen.text.style.bold("YOU'VE GOTTEN A FOLLOWER!"))<<"\n";
+    }else{ //Post liked
+        std::cout<<screen.center(screen.text.style.bold("YOU'VE GOTTEN A VOTE!"))<<"\n";
+    }
+    std::cout<<screen.center(text)<<"\n";
+    std::cout<<screen.center(date.toText());
+
+    std::cout<<"\n";
+    for(int i=0; i<width; i++){
+        std::cout<<screen.text.style.bold(screen.text.color.green("═"));
+    }
 }
 
 #endif
