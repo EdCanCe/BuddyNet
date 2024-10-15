@@ -1,6 +1,6 @@
 P
 0
-Sujedo de prueba
+Sujeto de prueba
 prueba
 1234
 No hay descripci¢n
@@ -9,7 +9,7 @@ No hay descripci¢n
 1
 P
 1
-Sujeto de prueba 2
+Sujeto de Prueba
 prueba2
 1234
 Tampoco hay descripci¢n
@@ -22,56 +22,44 @@ prueba
 1
 prueba2
 0
-Primer post
+Primer Post
 2024
 10
 15
 0
-30
-18
-C
-1
-prueba2
-0
-0
-Segundo Post
-2024
-10
-15
-0
-30
-51
+41
+7
 N
 prueba
-2
-@prueba2 followed you
-2024
-10
-15
-0
-31
-8
 1
--1
--1
 @prueba2 upvoted one of your posts.
 2024
 10
 15
 0
-31
-0
+41
+34
 2
 0
--1
+prueba2
 F
 prueba
-0
+1
+prueba2
 N
 prueba2
+1
+@prueba followed you
+2024
+10
+15
 0
+40
+57
+1
+-1
+prueba
 F
 prueba2
-1
-prueba
+0
 X

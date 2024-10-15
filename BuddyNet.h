@@ -696,7 +696,7 @@ void Net::storeData(){
             cout<<i->getNotifications().top()->getType()<<"\n";
             if(i->getNotifications().top()->getPost()!=nullptr) cout<<i->getNotifications().top()->getPost()->getId()<<"\n";
             else cout<<"-1\n";
-            if(i->getNotifications().top()->getProfile()!=nullptr) cout<<i->getNotifications().top()->getProfile()->getId()<<"\n";
+            if(i->getNotifications().top()->getProfile()!=nullptr) cout<<i->getNotifications().top()->getProfile()->getUsername()<<"\n";
             else cout<<"-1\n";
             i->getNotifications().pop();
         }
