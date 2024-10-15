@@ -1,213 +1,79 @@
 P
 0
-Edmundo Canedo Cervantes
-edcance
-contrasena
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
+Sujeto de Prueba 1
+prueba
+1234
+No hay descripci�n.
 2000
 1
 1
 P
 1
-Juan Perez
-jotape
-contrasena
-Proin fermentum leo vel orci porta non. Ut tristique est sit amet arcu aliquam, in aliquam purus bibendum. Sed ut perspiciatis unde omnis.
+Sujeto de Prueba 2
+prueba2
+1234
+Tampoco hay descripci�n.
 2000
-1
-1
-P
 2
-Ana Martinez
-analaquetienelana
-contrasena
-Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper auctor.
-1995
-6
+2
+C
+0
+prueba
+1
+prueba2
+0
+Primer Post
+2024
+10
 15
-C
 0
-edcance
-3
-edcance
-jotape
-analaquetienelana
-0
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.
-2024
-9
-20
-7
-32
-35
+21
+42
 C
 1
-jotape
+prueba2
 0
-3
-edcance
-jotape
-analaquetienelana
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.
-2024
-9
-20
-7
-32
-35
-C
-2
-analaquetienelana
-3
-edcance
-jotape
-analaquetienelana
 0
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.
+Otro post
 2024
-9
-20
-7
-32
-35
-C
-3
-edcance
+10
+15
 0
-3
-edcance
-jotape
-analaquetienelana
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.
-2024
-9
-20
-7
-32
-35
-C
-4
-jotape
-2
-edcance
-jotape
-0
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.
-2024
-9
-20
-7
-32
-35
-C
-5
-analaquetienelana
-0
-2
-edcance
-jotape
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.
-2024
-9
-20
-7
-32
-35
-C
-6
-edcance
-2
-edcance
-jotape
-1
-analaquetienelana
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.
-2024
-9
-20
-7
-32
-35
-C
-7
-jotape
-1
-analaquetienelana
-2
-edcance
-jotape
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.
-2024
-9
-20
-7
-32
-35
+22
+40
 N
-4
-Juanito le dió like a uno de tus posts v4
-2024
-10
-14
-23
-21
-18
+prueba
 2
-0
-1
-Juanito le dió like a uno de tus posts v4
-Juanito le dió like a uno de tus posts v3
+@prueba2 followed you
 2024
 10
-14
-23
-21
-18
-2
+15
 0
-1
-Juanito le dió like a uno de tus posts v3
-Juanito le dió like a uno de tus posts v2
-2024
-10
-14
-23
-21
-18
-2
-0
-1
-Juanito le dió like a uno de tus posts v2
-Juanito le dió like a uno de tus posts
-2024
-10
-14
-23
-21
-18
-2
-0
-1
-Juanito le dió like a uno de tus posts
-F
-1
-jotape
-N
-1
-@edcance followed you
-2024
-10
-14
-23
-21
-35
+22
+32
 1
 -1
+1
+@prueba2 followed you
+@prueba2 upvoted one of your posts.
+2024
+10
+15
 0
-@edcance followed you
+22
+28
+2
+0
+1
+@prueba2 upvoted one of your posts.
 F
+prueba
 0
 N
+prueba2
 0
 F
-0
+prueba2
+1
+prueba
+X

@@ -58,7 +58,7 @@ void Net::startNet(){
     int q;
 
     loadData();
-    testData();
+    //testData();
 
     do{
         screen.clear();
@@ -589,7 +589,7 @@ void Net::loadData(){
             getline(inputFile, qS);
             ll q=input.getInt(qS);
             Profile* curUser=profileExists(userS);
-            stack<Notification*> notis;
+            Stack<Notification*> notis;
             for(ll i=0; i<q; i++){
                 std::string text, yearS, monthS, dayS, hourS, minuteS, secondS, typeS, postS, profileS;
                 ll year, month, day, hour, minute, second, type;
@@ -613,10 +613,26 @@ void Net::loadData(){
                 Profile* notiProfile=nullptr;
                 if(postS!="-1") notiPost=postExists(input.getInt(postS));
                 if(profileS!="-1") notiProfile=profileExists(profileS);
+
+                notis.push(new Notification(text, Date(year, month, day, hour, minute, second), type, notiPost, notiProfile));
             }
-
+            Stack<Notification*> notiSend;
+            while(!notis.empty()){
+                notiSend.push(notis.top());
+                notis.pop();
+            }
+            curUser->setNotifications(notiSend);
         }else if(s=="F"){
-
+            std::string qS, userS;
+            getline(inputFile, userS);
+            getline(inputFile, qS);
+            ll q=input.getInt(qS);
+            Profile* curUser=profileExists(userS);
+            for(ll i=0; i<q; i++){
+                std::string aux;
+                getline(inputFile, aux);
+                curUser->addFollow(profileExists(aux));
+            }
         }
     }
     inputFile.close(); 

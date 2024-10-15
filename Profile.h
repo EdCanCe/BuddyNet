@@ -55,6 +55,7 @@ class Profile{
         void setUsername(std::string);
         void setPassword(std::string);
         void setDescription(std::string);
+        void setNotifications(Stack<Notification*>&);
         bool addFollow(Profile*);
         bool removeFollow(Profile*);
         void print();
@@ -230,6 +231,10 @@ void Profile::setPassword(std::string Password){
  */
 void Profile::setDescription(std::string Description){
     description=Description;
+}
+
+void Profile::setNotifications(Stack<Notification*>& Notifications){
+    notifications=Notifications;
 }
 
 /**
