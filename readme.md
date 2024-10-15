@@ -9,7 +9,8 @@ Hasta esta entrega lo único que falta para terminar en la idea original es impl
 - [Índice](#índice)
 - [Competencias](#competencias)
     - [SICT0301](#sict0301-evalúa-los-componentes)
-    - [SICT0301](#sict0302-toma-decisiones)
+    - [SICT0302](#sict0302-toma-decisiones)
+    - [SICT0303](#sict0303-implementa-acciones-científicas)
 
 ## Competencias:
 
