@@ -609,6 +609,8 @@ void Net::loadData(){
                 second=input.getInt(secondS);
                 type=input.getInt(typeS);
 
+                getline(inputFile, postS);
+                getline(inputFile, profileS);
                 Post* notiPost=nullptr;
                 Profile* notiProfile=nullptr;
                 if(postS!="-1") notiPost=postExists(input.getInt(postS));
@@ -696,7 +698,6 @@ void Net::storeData(){
             else cout<<"-1\n";
             if(i->getNotifications().top()->getProfile()!=nullptr) cout<<i->getNotifications().top()->getProfile()->getId()<<"\n";
             else cout<<"-1\n";
-            cout<<i->getNotifications().top()->toText()<<"\n";
             i->getNotifications().pop();
         }
 
