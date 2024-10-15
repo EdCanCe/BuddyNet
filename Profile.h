@@ -43,6 +43,7 @@ class Profile{
         ll getId();
         std::string getName();
         std::string getUsername();
+        std::string getPassword();
         std::string getDescription();
         Date& getBirth();
         Stack<Notification*>& getNotifications();
@@ -106,6 +107,15 @@ std::string Profile::getName(){
  */
 std::string Profile::getUsername(){
     return username;
+}
+
+/**
+ * @brief Returns the user's password.
+ * 
+ * @return std::string - User's password.
+ */
+std::string Profile::getPassword(){
+    return password;
 }
 
 /**

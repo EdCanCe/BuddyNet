@@ -2,7 +2,8 @@
 #define BUDDYNET_H
 
 #include <iostream>
-#include <string>
+#include <fstream>
+#include <cstdio>
 #include "Screen.h"
 #include "Profile.h"
 #include "Post.h"
@@ -522,15 +523,92 @@ void Net::waitUser(){
 }
 
 void Net::loadData(){
+    ifstream inputFile("database.txt"); 
+    string s;
+    while(getline(inputFile, s)){
+        if(s=="X") break;
+        else if(s=="P"){
+            //std::string
+        }else if(s=="C"){
 
+        }else if(s=="N"){
+
+        }else if(s=="F"){
+
+        }
+    }
+    inputFile.close(); 
 }
 
 void Net::storeData(){
     FILE *fp=freopen("database.txt", "w", stdout);
 
-    for(int i=0; i<profiles.size(); i++){
-        
+    for(auto i:profiles){ //Profiles
+        cout<<"P\n";
+        cout<<i->getId()<<"\n";
+        cout<<i->getName()<<"\n";
+        cout<<i->getUsername()<<"\n";
+        cout<<i->getPassword()<<"\n";
+        cout<<i->getDescription()<<"\n";
+        cout<<i->getBirth().getYear()<<"\n";
+        cout<<i->getBirth().getMonth()<<"\n";
+        cout<<i->getBirth().getDay()<<"\n";
     }
+
+    for(auto i:posts){ //Posts
+        cout<<"C\n";
+        cout<<i->getId()<<"\n";
+        cout<<i->getAuthor().getUsername()<<"\n";
+
+        ll aux=i->getVotes(1).size(); //Upvotes
+        cout<<aux<<"\n";
+        for(auto j:i->getVotes(1)){
+            cout<<j->getUsername()<<"\n";
+        }
+
+        aux=i->getVotes(0).size(); //Downvotes
+        cout<<aux<<"\n";
+        for(auto j:i->getVotes(0)){
+            cout<<j->getUsername()<<"\n";
+        }
+
+        cout<<i->getText()<<"\n";
+        cout<<i->getDate().getYear()<<"\n";
+        cout<<i->getDate().getMonth()<<"\n";
+        cout<<i->getDate().getDay()<<"\n";
+        cout<<i->getDate().getHour()<<"\n";
+        cout<<i->getDate().getMinute()<<"\n";
+        cout<<i->getDate().getSecond()<<"\n";
+    }
+
+    for(auto i:profiles){ //Notifications and follows
+        cout<<"N\n";
+        cout<<i->getNotifications().size()<<"\n";
+        while(!i->getNotifications().empty()){
+            cout<<i->getNotifications().top()->toText()<<"\n";
+            cout<<i->getNotifications().top()->getDate().getYear()<<"\n";
+            cout<<i->getNotifications().top()->getDate().getMonth()<<"\n";
+            cout<<i->getNotifications().top()->getDate().getDay()<<"\n";
+            cout<<i->getNotifications().top()->getDate().getHour()<<"\n";
+            cout<<i->getNotifications().top()->getDate().getMinute()<<"\n";
+            cout<<i->getNotifications().top()->getDate().getSecond()<<"\n";
+            cout<<i->getNotifications().top()->getType()<<"\n";
+            if(i->getNotifications().top()->getPost()!=nullptr) cout<<i->getNotifications().top()->getPost()->getId()<<"\n";
+            else cout<<"-1\n";
+            if(i->getNotifications().top()->getProfile()!=nullptr) cout<<i->getNotifications().top()->getProfile()->getId()<<"\n";
+            else cout<<"-1\n";
+            cout<<i->getNotifications().top()->toText()<<"\n";
+            i->getNotifications().pop();
+        }
+
+        cout<<"F\n";
+        cout<<i->getFollows().size()<<"\n";
+        for(auto j:i->getFollows()){
+            cout<<j->getUsername()<<"\n";
+        }
+    }
+
+    cout<<"X";
 
     fclose(fp);
     #ifdef _WIN32
@@ -548,19 +626,19 @@ void Net::testData(){
     profiles.push_back(new Profile(2, "Ana Martinez", "analaquetienelana", "contrasena", "Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper auctor.", 1995, 6, 15));
 
     vector<Profile*> v={profiles[0], profiles[1], profiles[2]}, v2={};
-    posts.push_back(new Post(0, *profiles[0],  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-    posts.push_back(new Post(1, *profiles[1], "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
+    posts.push_back(new Post(0, *profiles[0], v, v2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.", 2024, 9, 20, 7, 32, 35));
+    posts.push_back(new Post(1, *profiles[1], v2, v, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.", 2024, 9, 20, 7, 32, 35));
     
-    posts.push_back(new Post(2, *profiles[2], v, v2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-    posts.push_back(new Post(3, *profiles[0], v2, v, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
+    posts.push_back(new Post(2, *profiles[2], v, v2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.", 2024, 9, 20, 7, 32, 35));
+    posts.push_back(new Post(3, *profiles[0], v2, v, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.", 2024, 9, 20, 7, 32, 35));
 
     v={profiles[0],profiles[1]};
-    posts.push_back(new Post(4, *profiles[1], v, v2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-    posts.push_back(new Post(5, *profiles[2], v2, v, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
+    posts.push_back(new Post(4, *profiles[1], v, v2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.", 2024, 9, 20, 7, 32, 35));
+    posts.push_back(new Post(5, *profiles[2], v2, v, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.", 2024, 9, 20, 7, 32, 35));
 
     v2={profiles[2]};
-    posts.push_back(new Post(6, *profiles[0], v, v2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
-    posts.push_back(new Post(7, *profiles[1], v2, v, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus."));
+    posts.push_back(new Post(6, *profiles[0], v, v2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.", 2024, 9, 20, 7, 32, 35));
+    posts.push_back(new Post(7, *profiles[1], v2, v, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Sed sit amet eros ut urna luctus cursus.", 2024, 9, 20, 7, 32, 35));
 
     profiles[0]->getNotifications().push(new Notification("Juanito le dió like a uno de tus posts", 2,posts[0], profiles[1]));
     profiles[0]->getNotifications().push(new Notification("Juanito le dió like a uno de tus posts v2", 2,posts[0], profiles[1]));

@@ -21,6 +21,12 @@ class Date{
         Date(int, int, int, int, int, int);
         std::string toText();
 
+        int getYear();
+        int getMonth();
+        int getDay();
+        int getHour();
+        int getMinute();
+        int getSecond();
         friend bool operator<(const Date&, const Date&);
 };
 
@@ -58,6 +64,30 @@ std::string Date::toText(){
     std::string s=input.getString(0+year)+"/"+input.getString(month)+"/"+input.getString(day);
     if(second!=-1) s=s+" "+input.getString(hour)+":"+input.getString(minute);
     return s;
+}
+
+int Date::getYear(){
+    return year;
+}
+
+int Date::getMonth(){
+    return month;
+}
+
+int Date::getDay(){
+    return day;
+}
+
+int Date::getHour(){
+    return hour;
+}
+
+int Date::getMinute(){
+    return minute;
+}
+
+int Date::getSecond(){
+    return second;
 }
 
 bool operator<(const Date& l, const Date& r){

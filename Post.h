@@ -37,7 +37,7 @@ class Post{
     //Declaration of public attributes.
     public:
         Post(ll, Profile&, std::string);
-        Post(ll, Profile&, vector<Profile*>&, vector<Profile*>&, std::string);
+        Post(ll, Profile&, vector<Profile*>&, vector<Profile*>&, std::string, int, int, int, int, int, int);
         ll getId();
         Profile& getAuthor();
         std::string getText();
@@ -53,7 +53,7 @@ class Post{
 
 /**
  * @brief Constructs a new Post Object.
- * This constructor is used for a new post that's not a comment.
+ * This constructor is used for a new post.
  * 
  * @param Id The unique ID of the Post.
  * @param Author The Author of the post.
@@ -69,8 +69,7 @@ Post::Post(ll Id, Profile& Author, std::string Text){
 
 /**
  * @brief Constructs a new Post Object.
- * This constructor is used to load a post from
- * the database that's not a comment.
+ * This constructor is used to load a post from the database.
  * 
  * @param Id The unique ID of the Post.
  * @param Author The Author of the post.
@@ -78,13 +77,13 @@ Post::Post(ll Id, Profile& Author, std::string Text){
  * @param Downvotes The ID of the profiles that downvoted the post.
  * @param Text The content of the post.
  */
-Post::Post(ll Id, Profile& Author, vector<Profile*>& Upvotes, vector<Profile*>& Downvotes, std::string Text){
+Post::Post(ll Id, Profile& Author, vector<Profile*>& Upvotes, vector<Profile*>& Downvotes, std::string Text, int year, int month, int day, int hour, int minute, int second){
     id=Id;
     author=&Author;
     upvotes=Upvotes;
     downvotes=Downvotes;
     text=Text;
-    date=Date();
+    date=Date(year, month, day, hour, minute, second);
 }
 
 /**
