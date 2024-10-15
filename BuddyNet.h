@@ -528,10 +528,92 @@ void Net::loadData(){
     while(getline(inputFile, s)){
         if(s=="X") break;
         else if(s=="P"){
-            //std::string
+            std::string name, username, password, description, yearS, monthS, dayS, idS;
+            int year, month, day, id;
+            getline(inputFile, idS);
+            getline(inputFile, name);
+            getline(inputFile, username);
+            getline(inputFile, password);
+            getline(inputFile, description);
+            getline(inputFile, yearS);
+            getline(inputFile, monthS);
+            getline(inputFile, dayS);
+            id=input.getInt(idS);
+            year=input.getInt(yearS);
+            month=input.getInt(monthS);
+            day=input.getInt(dayS);
+            profiles.push_back(new Profile(id, name, username, password, description, year, month, day));
         }else if(s=="C"){
+            std::string idS, authorS;
+            getline(inputFile, idS);
+            getline(inputFile, authorS);
+            ll id=input.getInt(idS);
+            Profile* author=profileExists(authorS);
 
+            std::string numVotesS, vote;
+            getline(inputFile, numVotesS);
+            ll numVotes=input.getInt(numVotesS);
+            vector<Profile*> upvotes;
+            for(ll i=0; i<numVotes; i++){
+                getline(inputFile, vote);
+                upvotes.push_back(profileExists(vote));
+            }
+            getline(inputFile, numVotesS);
+            numVotes=input.getInt(numVotesS);
+            vector<Profile*> downvotes;
+            for(ll i=0; i<numVotes; i++){
+                getline(inputFile, vote);
+                downvotes.push_back(profileExists(vote));
+            }
+
+            std::string text, yearS, monthS, dayS, hourS, minuteS, secondS;
+            ll year, month, day, hour, minute, second;
+            getline(inputFile, text);
+            getline(inputFile, yearS);
+            getline(inputFile, monthS);
+            getline(inputFile, dayS);
+            getline(inputFile, hourS);
+            getline(inputFile, minuteS);
+            getline(inputFile, secondS);
+            year=input.getInt(yearS);
+            month=input.getInt(monthS);
+            day=input.getInt(dayS);
+            hour=input.getInt(hourS);
+            minute=input.getInt(minuteS);
+            second=input.getInt(secondS);
+
+            posts.push_back(new Post(id, *author, upvotes, downvotes, text, year, month, day, hour, minute, second));
         }else if(s=="N"){
+            std::string qS, userS;
+            getline(inputFile, userS);
+            getline(inputFile, qS);
+            ll q=input.getInt(qS);
+            Profile* curUser=profileExists(userS);
+            stack<Notification*> notis;
+            for(ll i=0; i<q; i++){
+                std::string text, yearS, monthS, dayS, hourS, minuteS, secondS, typeS, postS, profileS;
+                ll year, month, day, hour, minute, second, type;
+                getline(inputFile, text);
+                getline(inputFile, yearS);
+                getline(inputFile, monthS);
+                getline(inputFile, dayS);
+                getline(inputFile, hourS);
+                getline(inputFile, minuteS);
+                getline(inputFile, secondS);
+                getline(inputFile, typeS);
+                year=input.getInt(yearS);
+                month=input.getInt(monthS);
+                day=input.getInt(dayS);
+                hour=input.getInt(hourS);
+                minute=input.getInt(minuteS);
+                second=input.getInt(secondS);
+                type=input.getInt(typeS);
+
+                Post* notiPost=nullptr;
+                Profile* notiProfile=nullptr;
+                if(postS!="-1") notiPost=postExists(input.getInt(postS));
+                if(profileS!="-1") notiProfile=profileExists(profileS);
+            }
 
         }else if(s=="F"){
 
@@ -583,6 +665,7 @@ void Net::storeData(){
 
     for(auto i:profiles){ //Notifications and follows
         cout<<"N\n";
+        cout<<i->getUsername()<<"\n";
         cout<<i->getNotifications().size()<<"\n";
         while(!i->getNotifications().empty()){
             cout<<i->getNotifications().top()->toText()<<"\n";
@@ -602,6 +685,7 @@ void Net::storeData(){
         }
 
         cout<<"F\n";
+        cout<<i->getUsername()<<"\n";
         cout<<i->getFollows().size()<<"\n";
         for(auto j:i->getFollows()){
             cout<<j->getUsername()<<"\n";
