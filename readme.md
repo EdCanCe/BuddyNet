@@ -15,7 +15,7 @@ Hasta esta entrega lo único que falta para terminar en la idea original es impl
 ## Competencias:
 
 ### SICT0301: Evalúa los componentes 
-Solo se usa un algoritmo de ordenamiento, se usa un `Merge Sort` el cuál está ubicado en `Sorts.h`. Se usó este ya que el `Merge Sort` tiene una complejidad temporal de `O(n log(n))` y una complejidad espacial de `O(n)`. Hay otros algoritmos de ordenamiendo como el `Quick Sort`, sin embargo, para el peor de los casos termina siento más lento que el `Merge Sort`.
+Solo se usa un algoritmo de ordenamiento, se usa un `Merge Sort` el cuál está ubicado en `Sorts.h`. Se usó este ya que el `Merge Sort` tiene una complejidad temporal de `O(n log(n))` y una complejidad espacial de `O(n)`. Hay otros algoritmos de ordenamiendo como el `Quick Sort`, sin embargo, para el peor de los casos termina siendo más lento que el `Merge Sort`.
 
 Se usan 2 estructuras lineales, las cuales están ubicadas en `Structures.h`. Una de ellas es el `Stack` la cuál tiene una complejidad espacial de `O(n)`, mientras que para insertar, borrar y obtener su primer elemento es de `O(1)`. La otra estructura que se usa es un `Queue` que tiene las mismas complejidades que el `Stack`.
 
