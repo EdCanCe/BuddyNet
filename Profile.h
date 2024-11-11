@@ -48,6 +48,7 @@ class Profile{
         Date& getBirth();
         Stack<Notification*>& getNotifications();
         vector<Profile*>& getFollows();
+        vector<Profile*> getNet();
         bool validatePassword(std::string Password);
         ll isInList(vector<Profile*>&, Profile*);
         ll isInList(vector<Profile*>&);
@@ -155,6 +156,16 @@ Stack<Notification*>& Profile::getNotifications(){
  */
 vector<Profile*>& Profile::getFollows(){
     return follows;
+}
+
+/**
+ * @brief Returns a list containing the net of follows
+ * of the user(up to 3 follows).
+ * 
+ * @return vector<Profile*> - The iser's net of follows.
+ */
+vector<Profile*> Profile::getNet(){
+    Graph<Profile> net=Graph(follows);
 }
 
 /**

@@ -29,7 +29,7 @@ class Node{
         Node(T, Node<T>*, bool);
 
         friend class Stack<T>;
-        friend class Stack<T>;
+        friend class Queue<T>;
 };
 
 template <class T>
@@ -104,6 +104,8 @@ ll Stack<T>::size(){
     return sze;
 }
 
+template <class T> class Graph;
+
 template <class T>
 class Queue{
     private:
@@ -116,6 +118,8 @@ class Queue{
         T front();
         void push(T);
         void pop();
+
+    friend class Graph;
 };
 
 template <class T>
@@ -149,6 +153,26 @@ void Queue<T>::pop(){
     head=aux;
     aux->prev=0;
     sze--;
+}
+
+template <class T>
+class Graph{
+    private:
+        vector<T*> connected;
+
+    public:
+        Graph(vector<T*>);
+        vector<T*> BFS();
+};
+
+template <class T>
+Graph<T>::Graph(vector<T*> x){
+    for(auto i:x) connected.push_back(i);
+}
+
+template <class T>
+vector<T*> Graph<T>::BFS(){
+
 }
 
 #endif
