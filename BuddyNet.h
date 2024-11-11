@@ -4,13 +4,13 @@
 #include <iostream>
 #include <fstream>
 #include <cstdio>
-#include "Screen.h"
 #include "Profile.h"
 #include "Post.h"
-#include "Input.h"
-#include "Sorts.h"
 #include "Notification.h"
 #include "Structures.h"
+#include "Sorts.h"
+#include "Screen.h"
+#include "Input.h"
 
 class Net{
     private:
@@ -224,7 +224,20 @@ void Net::showPosts(){
     screen.clear();
     std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.green("BUDDY NET -> HOME -> POSTS")))<<"\n\n\n";
 
+    vector<Profile*> userNet=user->getNet();
+    //userNet.push_back(user);
+    for(auto i:userNet) std::cout<<i->getUsername()<<" ";
+
     ll ps=posts.size();
+    vector<Post*> netPosts;
+    for(ll i=0; i<ps;i++){
+        if(posts[i]->getAuthor().isInList(userNet)!=-1){
+            netPosts.push_back(posts[i]);
+            std::cout<<"post["<<posts[i]->getId()<<"]";    
+        }
+    }
+
+    ps=netPosts.size();
     if(ps==0){
         std::cout<<"\n"<<screen.center(screen.text.color.red("There are no posts to show."))<<"\n";
         std::cout<<"\n"<<screen.center(screen.text.color.yellow("Going back home."))<<"\n\n";
@@ -234,11 +247,11 @@ void Net::showPosts(){
 
     ps--;
     for(ll i=0; i<ps; i++){
-        posts[i]->print();
+        netPosts[i]->print();
         std::cout<<"\n";
         for(int j=0; j<3; j++)std::cout<<screen.center(screen.text.style.bold(screen.text.color.green("║")))<<"\n";
     }
-    posts[ps]->print();
+    netPosts[ps]->print();
     std::cout<<"\n\n";
 
     std::cout<<screen.center(screen.text.color.yellow("Going back home."))<<"\n\n";
@@ -305,11 +318,10 @@ void Net::gotoSearch(){
     std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.cyan("BUDDY NET -> HOME -> SEARCH")))<<"\n\n";
     std::cout<<"\n"<<screen.center(screen.text.style.italic(screen.text.color.green("Type \"[XX\" to go to that post. Only type the text to go to a username.")))<<"\n";
     std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your search: "));
-    std::string searchText=input.getWord();
+    std::string searchText=input.getRawString(input.getWord());
 
     if(searchText[0]=='['){ //It's a post
         //Añadir algo que confirme que sea número
-        searchText=input.getRawString(searchText);
         Post* pPtr=postExists(input.getInt(searchText));
         if(pPtr==0){ //Post doesn't exist
             std::cout<<"\n"<<screen.center(screen.text.color.red("Post not found."))<<"\n";

@@ -11,10 +11,12 @@
 #define PROFILE_H
 
 #include <iostream>
+#include <queue>
 #include "Date.h"
 #include "Structures.h"
 #define ll long long int
 
+class Graph;
 class Post; //Forward declaration
 class Notification; //Forward declaration
 
@@ -60,7 +62,54 @@ class Profile{
         bool addFollow(Profile*);
         bool removeFollow(Profile*);
         void print();
+
+    friend class Graph;
 };
+
+class Graph{
+    private:
+        vector<Profile*> connected;
+        Queue<pair<Profile*, int>> leftToCheck;
+
+    public:
+        Graph(Profile*);
+        bool visited(Profile*);
+        vector<Profile*> BFS_helper();
+        vector<Profile*> BFS();
+};
+
+Graph::Graph(Profile* x){
+    leftToCheck.push({x,0});
+}
+
+bool Graph::visited(Profile* x){
+    for(ll i=0; i<connected.size(); i++){
+        if(x->getId()==connected[i]->getId()) return true;
+    }
+    return false;
+}
+
+vector<Profile*> Graph::BFS_helper(){
+    if(leftToCheck.empty() || leftToCheck.front().second>=3){
+        return connected;
+    }else{
+        Profile* current=leftToCheck.front().first;
+        ll depth=leftToCheck.front().second;
+        leftToCheck.pop();
+        if(visited(current)==false){
+            connected.push_back(current);
+            vector<Profile*> currentFollows=current->follows;
+            for(ll i=0; i<currentFollows.size(); i++){
+                leftToCheck.push({currentFollows[i],depth+1});
+            }
+        }
+        return BFS_helper();
+    }
+}
+
+vector<Profile*> Graph::BFS(){
+    return BFS_helper();
+}
 
 /**
  * @brief Constructs a new Profile Object by entering all of
@@ -165,7 +214,9 @@ vector<Profile*>& Profile::getFollows(){
  * @return vector<Profile*> - The iser's net of follows.
  */
 vector<Profile*> Profile::getNet(){
-    Graph<Profile> net=Graph(follows);
+    Graph net=Graph(this);
+    vector<Profile*> fullNet=net.BFS();
+    return fullNet;
 }
 
 /**
@@ -189,7 +240,7 @@ bool Profile::validatePassword(std::string Password){
  */
 ll Profile::isInList(vector<Profile*>& profiles, Profile* pPtr){
     for(ll i=0; i<profiles.size(); i++){
-        if(profiles[i]==pPtr) return i;
+        if(profiles[i]->getId()==pPtr->getId()) return i;
     }
     return -1;
 }
@@ -202,7 +253,7 @@ ll Profile::isInList(vector<Profile*>& profiles, Profile* pPtr){
  */
 ll Profile::isInList(vector<Profile*>& profiles){
     for(ll i=0; i<profiles.size(); i++){
-        if(profiles[i]==this) return i;
+        if(profiles[i]->getId()==id) return i;
     }
     return -1;
 }

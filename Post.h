@@ -11,10 +11,10 @@
 #define POST_H
 
 #include <iostream>
+#include <vector>
 #include "Profile.h"
 #include "Date.h"
 #include "Screen.h"
-#include "Structures.h"
 #define ll long long int
 
 /**

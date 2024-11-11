@@ -10,10 +10,12 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
-#include <vector> //After learning how it works implement it manually
+#include <vector>
+#include "Profile.h"
 #define ll long long int
 using namespace std;
 
+class Profile;
 template <class T> class Stack;
 template <class T> class Queue;
 
@@ -104,7 +106,7 @@ ll Stack<T>::size(){
     return sze;
 }
 
-template <class T> class Graph;
+class Graph;
 
 template <class T>
 class Queue{
@@ -118,8 +120,6 @@ class Queue{
         T front();
         void push(T);
         void pop();
-
-    friend class Graph;
 };
 
 template <class T>
@@ -155,24 +155,6 @@ void Queue<T>::pop(){
     sze--;
 }
 
-template <class T>
-class Graph{
-    private:
-        vector<T*> connected;
 
-    public:
-        Graph(vector<T*>);
-        vector<T*> BFS();
-};
-
-template <class T>
-Graph<T>::Graph(vector<T*> x){
-    for(auto i:x) connected.push_back(i);
-}
-
-template <class T>
-vector<T*> Graph<T>::BFS(){
-
-}
 
 #endif
