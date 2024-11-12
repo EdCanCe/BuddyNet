@@ -148,10 +148,16 @@ void Queue<T>::push(T x){
 template <class T>
 void Queue<T>::pop(){
     if(empty()) return;
-    Node<T>* aux=head->next;
-    delete head;
-    head=aux;
-    aux->prev=0;
+    if(sze>1){
+        Node<T>* aux=head->next;
+        delete head;
+        head=aux;
+        aux->prev=0;
+    }else{
+        delete head;
+        head=0;
+        tail=head;
+    }
     sze--;
 }
 
