@@ -4,7 +4,7 @@
  * @brief This file has the data structures that will be
  * used throughout the proyect.
  * @version 0.1
- * @date 2024-10-13
+ * @date 2024-11-11
  * 
  */
 #ifndef STRUCTURES_H
@@ -15,17 +15,25 @@
 #define ll long long int
 using namespace std;
 
-class Profile;
-template <class T> class Stack;
-template <class T> class Queue;
+class Profile; //Forward declaration
+template <class T> class Stack; //Forward declaration
+template <class T> class Queue; //Forward declaration
 
+/**
+ * @class Node
+ * 
+ * @brief This class has the nodes that will be used for
+ * linear structures.
+ */
 template <class T>
 class Node{
+    //Declaration of private attributes
     private:
-        T value;
-        Node<T>* prev;
-        Node<T>* next;
+        T value; //The value of the node
+        Node<T>* prev; //The previous node
+        Node<T>* next; //The next node
 
+    //Declaration of public methods
     public:
         Node(T);
         Node(T, Node<T>*, bool);
@@ -34,6 +42,12 @@ class Node{
         friend class Queue<T>;
 };
 
+/**
+ * @brief Construct a new blank Node with
+ * a value.
+ * 
+ * @param x The value of the node.  
+ */
 template <class T>
 Node<T>::Node(T x){
     value=x;
@@ -41,6 +55,13 @@ Node<T>::Node(T x){
     next=0;
 }
 
+/**
+ * @brief Construct a new Node with all of it's data.
+ * 
+ * @param x The value of the node.
+ * @param Ptr The pointer to a previous or next node.
+ * @param typeOfPtr Indicates if the pointer is previous(0) or next(1).
+ */
 template <class T>
 Node<T>::Node(T x, Node<T>* Ptr, bool typeOfPtr){
     value=x;
@@ -53,11 +74,16 @@ Node<T>::Node(T x, Node<T>* Ptr, bool typeOfPtr){
     }
 }
 
+/**
+ * @class Stack
+ * 
+ * @brief This class controls the nodes in the structure.
+ */
 template <class T>
 class Stack{
     private:
-        Node<T>* head;
-        ll sze=0;
+        Node<T>* head; //The starting node of the stack
+        ll sze=0; //The current size of the node
 
     public:
         bool empty();
@@ -67,16 +93,34 @@ class Stack{
         ll size();
 };
 
+/**
+ * @brief Checks if the stack is empty.
+ * 
+ * @return TRUE - The stack is empty.
+ * 
+ * FALSE - The stack has at least one element.
+ */
 template <class T>
 bool Stack<T>::empty(){
     return sze==0;
 }
 
+/**
+ * @brief Returns the last element that was inserted.
+ * It has a time complexity of O(1).
+ * 
+ * @return T - The top of the stack.
+ */
 template <class T>
 T Stack<T>::top(){
     return head->value;
 }
 
+/**
+ * @brief Removes the last element that was inserted.
+ * It has a time complexity of O(1).
+ * 
+ */
 template <class T>
 void Stack<T>::pop(){
     if(empty()) return;
@@ -90,6 +134,12 @@ void Stack<T>::pop(){
     head=aux;
 }
 
+/**
+ * @brief Adds a new element to the stack.
+ * It has a time complexity of O(1).
+ * 
+ * @param x The element to add.
+ */
 template <class T>
 void Stack<T>::push(T x){
     if(empty()){
@@ -101,13 +151,21 @@ void Stack<T>::push(T x){
     sze++;
 }
 
+/**
+ * @brief Returns the current size of the stack.
+ * 
+ * @return ll - The size of the stack. 
+ */
 template <class T>
 ll Stack<T>::size(){
     return sze;
 }
 
-class Graph;
-
+/**
+ * @class Queue
+ * 
+ * @brief This class controls the nodes in the structure.
+ */
 template <class T>
 class Queue{
     private:
@@ -122,16 +180,35 @@ class Queue{
         void pop();
 };
 
+/**
+ * @brief Checks if the queue is empty.
+ * 
+ * @return TRUE - The queue is empty.
+ * 
+ * FALSE - The queue has at least one element.
+ */
 template <class T>
 bool Queue<T>::empty(){
     return sze==0;
 }
 
+/**
+ * @brief Returns the first element that was inserted.
+ * It has a time complexity of O(1).
+ * 
+ * @return T - The front of the queue.
+ */
 template <class T>
 T Queue<T>::front(){
     return head->value;
 }
 
+/**
+ * @brief Adds a new element to the queue.
+ * It has a time complexity of O(1).
+ * 
+ * @param x The element to add.
+ */
 template <class T>
 void Queue<T>::push(T x){
     sze++;
@@ -145,6 +222,11 @@ void Queue<T>::push(T x){
     }
 }
 
+/**
+ * @brief Removes the first element that was inserted.
+ * It has a time complexity of O(1).
+ * 
+ */
 template <class T>
 void Queue<T>::pop(){
     if(empty()) return;
@@ -160,7 +242,5 @@ void Queue<T>::pop(){
     }
     sze--;
 }
-
-
 
 #endif

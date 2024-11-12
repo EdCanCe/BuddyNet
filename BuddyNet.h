@@ -32,8 +32,6 @@ class Net{
         void gotoSearch();
         void showPost(Post*);
         void showProfile(Profile*);
-        void upvotePost();
-        void downvotePost();
         void gotoNotis();
 
         void freeMemory();
@@ -225,15 +223,12 @@ void Net::showPosts(){
     std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.green("BUDDY NET -> HOME -> POSTS")))<<"\n\n\n";
 
     vector<Profile*> userNet=user->getNet();
-    //userNet.push_back(user);
-    for(auto i:userNet) std::cout<<i->getUsername()<<" ";
 
     ll ps=posts.size();
     vector<Post*> netPosts;
     for(ll i=0; i<ps;i++){
         if(posts[i]->getAuthor().isInList(userNet)!=-1){
             netPosts.push_back(posts[i]);
-            std::cout<<"post["<<posts[i]->getId()<<"]";    
         }
     }
 
@@ -318,9 +313,10 @@ void Net::gotoSearch(){
     std::cout<<"\n\n"<<screen.center(screen.text.style.bold(screen.text.color.cyan("BUDDY NET -> HOME -> SEARCH")))<<"\n\n";
     std::cout<<"\n"<<screen.center(screen.text.style.italic(screen.text.color.green("Type \"[XX\" to go to that post. Only type the text to go to a username.")))<<"\n";
     std::cout<<"\n"<<screen.text.style.italic(screen.text.color.green("Type your search: "));
-    std::string searchText=input.getRawString(input.getWord());
+    std::string searchText=input.getWord();
 
     if(searchText[0]=='['){ //It's a post
+        searchText=input.getRawString(searchText);
         //Añadir algo que confirme que sea número
         Post* pPtr=postExists(input.getInt(searchText));
         if(pPtr==0){ //Post doesn't exist
@@ -332,6 +328,7 @@ void Net::gotoSearch(){
             showPost(pPtr);
         }
     }else{ //It's a user
+        searchText=input.getRawString(searchText);
         Profile* pPtr=profileExists(searchText);
         if(pPtr==0){ //User doesn't exist
             std::cout<<"\n"<<screen.center(screen.text.color.red("Username not found."))<<"\n";

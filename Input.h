@@ -1,3 +1,12 @@
+/**
+ * @file Input.h
+ * @author EdCanCe
+ * @brief This file has the input methods to get data from the
+ * user.
+ * @version 0.1
+ * @date 2024-11-11
+ * 
+ */
 #ifndef INPUT_H
 #define INPUT_H
 
@@ -5,6 +14,11 @@
 #include "Screen.h"
 #define ll long long int
 
+/**
+ * @class Input
+ * 
+ * @brief This class has the methods to get data from inputs.
+ */
 class Input{
     public:
         ll getInt();
@@ -18,6 +32,11 @@ class Input{
         char getChar();
 };
 
+/**
+ * @brief Let's the user give an integer as input.
+ * 
+ * @return ll - The integer.
+ */
 ll Input::getInt(){
     std::string s;
     std::getline(std::cin, s);
@@ -40,6 +59,11 @@ ll Input::getInt(){
     return s[0]=='-' ? x*-1 : x;
 }
 
+/**
+ * @brief Let's the user give an integer as input between 2 values.
+ * 
+ * @return ll - The integer.
+ */
 ll Input::getInt(ll a, ll b){
     if(a>b) std::swap(a,b);
     ll x;
@@ -51,6 +75,11 @@ ll Input::getInt(ll a, ll b){
     return x;
 }
 
+/**
+ * @brief Transforms a string into a integer,
+ * 
+ * @return ll - The integer.
+ */
 ll Input::getInt(std::string s){
     ll x=0;
     for(ll i=0; i<s.size(); i++){
@@ -60,16 +89,31 @@ ll Input::getInt(std::string s){
     return x;
 }
 
+/**
+ * @brief Let's the user give a string as input.
+ * 
+ * @return std::string - The string.
+ */
 std::string Input::getString(){
     std::string s;
     std::getline(std::cin, s);
     return s;
 }
 
+/**
+ * @brief Transforms an integer into a string.
+ * 
+ * @return std::string - The string.
+ */
 std::string Input::getString(ll a){
     return std::to_string(a);
 }
 
+/**
+ * @brief Let's the user give a word as input.
+ * 
+ * @return std::string - The word.
+ */
 std::string Input::getWord(){
     std::string s=getString();
     for(ll i=0; i<s.size(); i++){
@@ -82,6 +126,11 @@ std::string Input::getWord(){
     return s;
 }
 
+/**
+ * @brief Let's the user give a string as a hidden input.
+ * 
+ * @return std::string - The string.
+ */
 std::string Input::getPassword(){
     std::cout<<"\033[8m";
     std::string s;
@@ -90,6 +139,12 @@ std::string Input::getPassword(){
     return s;
 }
 
+
+/**
+ * @brief Transforms the string into alphanumerical.
+ * 
+ * @return std::string - The string.
+ */
 std::string Input::getRawString(std::string s){
     std::string x="";
     char c;
@@ -101,6 +156,11 @@ std::string Input::getRawString(std::string s){
     return x;
 }
 
+/**
+ * @brief Let's the user give a char as input.
+ * 
+ * @return char - The char.
+ */
 char Input::getChar(){
     std::string s;
     s=getString();

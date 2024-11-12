@@ -4,7 +4,7 @@
  * @brief This file contains the profile class, that manages
  * the user profiles and it's data.
  * @version 0.1
- * @date 2024-09-18
+ * @date 2024-11-11
  * 
  */
 #ifndef PROFILE_H
@@ -16,7 +16,7 @@
 #include "Structures.h"
 #define ll long long int
 
-class Graph;
+class Graph; //Forward declaration
 class Post; //Forward declaration
 class Notification; //Forward declaration
 
@@ -66,6 +66,13 @@ class Profile{
     friend class Graph;
 };
 
+/**
+ * @class Graph
+ * 
+ * @brief This class contains the attributes and methods needed
+ * to perform a BFS.
+ * 
+ */
 class Graph{
     private:
         vector<Profile*> connected;
@@ -74,14 +81,27 @@ class Graph{
     public:
         Graph(Profile*);
         bool visited(Profile*);
-        vector<Profile*> BFS_helper();
         vector<Profile*> BFS();
 };
 
+/**
+ * @brief Constructs a new Graph with a profile as its base.
+ * 
+ * @param x 
+ */
 Graph::Graph(Profile* x){
     leftToCheck.push({x,0});
 }
 
+/**
+ * @brief Checks if a profile has already beeen visited in the
+ * BST execution. It has a time complexity of O(n).
+ * 
+ * @param x The profile to check.
+ * @return TRUE - The profile has already been visited.
+ * 
+ * FALSE - The profile hasn't been visited.
+ */
 bool Graph::visited(Profile* x){
     for(ll i=0; i<connected.size(); i++){
         if(x->getId()==connected[i]->getId()) return true;
@@ -89,7 +109,13 @@ bool Graph::visited(Profile* x){
     return false;
 }
 
-vector<Profile*> Graph::BFS_helper(){
+/**
+ * @brief Performs a Breath First Search with a maximum depth
+ * of 3 nodes. It has a time complexity of O(v+e).
+ * 
+ * @return vector<Profile*> - A list with the friend's net of the profile of the Graph.
+ */
+vector<Profile*> Graph::BFS(){
     if(leftToCheck.empty() || leftToCheck.front().second>=3){
         return connected;
     }else{
@@ -103,12 +129,8 @@ vector<Profile*> Graph::BFS_helper(){
                 leftToCheck.push({currentFollows[i],depth+1});
             }
         }
-        return BFS_helper();
+        return BFS();
     }
-}
-
-vector<Profile*> Graph::BFS(){
-    return BFS_helper();
 }
 
 /**

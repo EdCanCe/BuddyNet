@@ -4,7 +4,7 @@
  * @brief This file contains the Post class, that manages
  * the posts data.
  * @version 0.1
- * @date 2024-09-18
+ * @date 2024-11-11
  * 
  */
 #ifndef POST_H
@@ -132,23 +132,55 @@ ll Post::getVotes(){
     return size;
 }
 
+/**
+ * @brief Returns the list of the users that have voted
+ * a post. If the type of vote is 0 it returns the downvotes, 
+ * otherwise will return the upvotes.
+ * 
+ * @param q The type of votes to return.
+ * @return vector<Profile*>& The list of the voters.
+ */
 vector<Profile*>& Post::getVotes(bool q){
     if(q==0) return downvotes;
     return upvotes;
 }
 
+/**
+ * @brief Upvotes a post.
+ * 
+ * @param pPtr The profile that will perform the vote.
+ * @return TRUE - The vote was done successfully.
+ * 
+ * FALSE - Something happened and the vote couldn't proceed.
+ */
 bool Post::upvote(Profile* pPtr){
     if(pPtr->isInList(upvotes)!=-1 || pPtr->isInList(downvotes)!=-1) return false;
     upvotes.push_back(pPtr);
     return true;
 }
 
+/**
+ * @brief Downvotes a post.
+ * 
+ * @param pPtr The profile that will perform the vote.
+ * @return TRUE - The vote was done successfully.
+ * 
+ * FALSE - Something happened and the vote couldn't proceed.
+ */
 bool Post::downvote(Profile* pPtr){
     if(pPtr->isInList(upvotes)!=-1 || pPtr->isInList(downvotes)!=-1) return false;
     downvotes.push_back(pPtr);
     return true;
 }
 
+/**
+ * @brief Erase the current vote of a user on a post.
+ * 
+ * @param pPtr The profile that will perform the vote erase.
+ * @return TRUE - The vote was removed.
+ * 
+ * FALSE - There were no votes to remove.
+ */
 bool Post::erasevote(Profile* pPtr){
     bool x=false;
     ll q=pPtr->isInList(upvotes);

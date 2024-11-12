@@ -3,7 +3,7 @@ P
 Sujeto de prueba
 prueba
 1234
-No hay descripci¢n
+No hay descripciï¿½n
 2000
 1
 1
@@ -12,7 +12,7 @@ P
 Sujeto de Prueba
 prueba2
 1234
-Tampoco hay descripci¢n
+Tampoco hay descripciï¿½n
 2000
 1
 1
@@ -20,7 +20,7 @@ P
 2
 Prueba
 prueba3
-Prueba
+1234
 Prueba
 2001
 1
@@ -29,6 +29,15 @@ P
 3
 Prueba
 prueba4
+1234
+Prueba
+2001
+1
+1
+P
+4
+Prueba
+prueba5
 1234
 Prueba
 2001
@@ -73,7 +82,17 @@ Hola
 4
 N
 prueba
-2
+3
+@prueba2 followed you
+2024
+11
+11
+21
+50
+33
+1
+-1
+prueba2
 @prueba2 followed you
 2024
 11
@@ -115,7 +134,9 @@ prueba2
 prueba
 F
 prueba2
-0
+2
+prueba
+prueba5
 N
 prueba3
 1
@@ -158,5 +179,12 @@ prueba
 prueba3
 F
 prueba4
+1
+prueba5
+N
+prueba5
+0
+F
+prueba5
 0
 X
