@@ -55,16 +55,22 @@ En adición a las estructuras de datos y el algoritmos de ordenamiento mencionad
     Se encuentra en `BuddyNet.h`, guarda todos los datos del programa a la base de datos; tiene una complejidad temporal de `O(n)` ya que itera entre las publicaciones, sus datos y los perfiles una vez.
 
  - `upvote()`:
-    Se encuentra en `Post.h`, le da un voto arriba a una publicación; tiene una complejidad temporal de `O(n)`. Debido a que se modificarían muy poco los votos en una misma ejecución del programa, **sale más barato** hacer una búsqueda lineal para encontrar si se cuentan con votos en la publicación, a tener que hacer un ordenamiento y una búsqueda binaria.
+    Se encuentra en `Post.h`, le da un voto arriba a una publicación; tiene una complejidad temporal de `O(n)`. Debido a que se modificarían muy poco los votos y se harían pocas búsquedas en los mismos en una misma ejecución del programa, **sale más barato** hacer una búsqueda lineal para encontrar si se cuentan con votos en la publicación, a tener que hacer un ordenamiento y una búsqueda binaria.
 
  - `downvote()`:
-    Se encuentra en `Post.h`, le da un voto abajo a una publicación; tiene una complejidad temporal de `O(n)`. Debido a que se modificarían muy poco los votos en una misma ejecución del programa, **sale más barato** hacer una búsqueda lineal para encontrar si se cuentan con votos en la publicación, a tener que hacer un ordenamiento y una búsqueda binaria.
+    Se encuentra en `Post.h`, le da un voto abajo a una publicación; tiene una complejidad temporal de `O(n)`. Debido a que se modificarían muy poco los votos y se harían pocas búsquedas en los mismos en una misma ejecución del programa, **sale más barato** hacer una búsqueda lineal para encontrar si se cuentan con votos en la publicación, a tener que hacer un ordenamiento y una búsqueda binaria.
 
  - `erasevote()`:
-    Se encuentra en `Post.h`, le borra un voto a una publicación; tiene una complejidad temporal de `O(n)`. Debido a que se modificarían muy poco los votos en una misma ejecución del programa, **sale más barato** hacer una búsqueda lineal para encontrar si se cuentan con votos en la publicación, a tener que hacer un ordenamiento y una búsqueda binaria.
+    Se encuentra en `Post.h`, le borra un voto a una publicación; tiene una complejidad temporal de `O(n)`. Debido a que se modificarían muy poco los votos y se harían pocas búsquedas en los mismos en una misma ejecución del programa, **sale más barato** hacer una búsqueda lineal para encontrar si se cuentan con votos en la publicación, a tener que hacer un ordenamiento y una búsqueda binaria.
 
  - `isInList()`:
     Se encuentra en `Profile.h`, regresa el índice de un perfil en un vector; tiene una complejidad temporal de `O(n)`. Debido a los usos que se le da a éste método se prefirió el uso de una búsqueda lineal.
+
+ - `addFollow`:
+    Se encuentra en `Profile.h`, le añade un seguidor a un usuario; tiene una complejidad temporal de `O(n)`. Usa a `isInList()` para comprobar si está el usuario entre los sefuidores; usa una búsqueda lineal ya que cómo están en constante cambio saldría caro realizar varios ordenamientos seguidos.
+
+ - `removeFollow`:
+    Se encuentra en `Profile.h`, le quita un seguidor a un usuario; tiene una complejidad temporal de `O(n)`. Usa a `isInList()` para comprobar si está el usuario entre los sefuidores; usa una búsqueda lineal ya que cómo están en constante cambio saldría caro realizar varios ordenamientos seguidos.
 
 La complejidad temporal final del programa no se puede evaluar debido a que depende de las acciones que decida realizar el usuario, la cantidad de veces que se realizarán los diferentes algoritmos dentro de éste programa. 
 

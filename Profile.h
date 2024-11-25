@@ -255,6 +255,7 @@ bool Profile::validatePassword(std::string Password){
 
 /**
  * @brief Verifies if the user is in a vector.
+ * It has a time complexity of O(n).
  * 
  * @param profiles The vector.
  * @param pPtr The user to verify.
@@ -269,6 +270,7 @@ ll Profile::isInList(vector<Profile*>& profiles, Profile* pPtr){
 
 /**
  * @brief Verifies if the user is in a vector.
+ * It has a time complexity of O(n).
  * 
  * @param profiles The vector.
  * @return The index where the profile is.
@@ -323,6 +325,7 @@ void Profile::setNotifications(Stack<Notification*>& Notifications){
 
 /**
  * @brief Adds a follow to the user.
+ * It has a time complexity of O(n).
  * 
  * @param pPtr  The user to follow.
  * @return TRUE if the follow was succesful. FALSE if the follow didn't succeed.
@@ -337,6 +340,7 @@ bool Profile::addFollow(Profile* pPtr){
 
 /**
  * @brief Removes a follow to the user.
+ * It has a time complexity of O(n).
  * 
  * @param pPtr  The user to remove the follow.
  * @return TRUE if the unfollow was succesful. FALSE if the unfollow didn't succeed.
