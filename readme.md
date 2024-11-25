@@ -13,7 +13,7 @@ BuddyNet es un proyecto realizado en la clase TC1031. Es una red social local do
 
 ## Correciones:
 
-**Hace un análisis de complejidad correcto y completo para todos los demás componentes del programa y determina la complejidad final del programa.:**
+**Hace un análisis de complejidad correcto y completo para todos los demás componentes del programa y determina la complejidad final del programa:**
 
 Se tenía un análisis únicamente de los algoritmos de ordenamiento o de inserción, obtención, etc. en las estructuras de datos. 
 
@@ -29,6 +29,9 @@ Se usan 2 estructuras lineales, las cuales están ubicadas en `Structures.h`. Un
 Como estructura no lineal se usa un Grafo al que se le implementó un `BFS`, dicho código está implementado en `Profile.h` en la clase de `Graph`. Tiene una complejidad temporal de `O(V'+E')`, es decir, la suma de los nodos y aristas posibles a alcanzar, hasta cumplir la máxima profundidad de 3 nodos. De la misma manera cuenta con una complejidad espacial de `O(V)` debido a que utiliza un `Queue` para guardar los próximos nodos a visitar y un `Vector` para guardar los nodos ya visitados.
 
 En adición a las estructuras de datos y el algoritmos de ordenamiento mencionados anteriormente, éstos son algunos componentes del programa que vale la pena resaltar su comportamiento:
+
+<details>
+<summary>Análisis de componentes <i>(presionar para abrir)</i></summary>
 
  - `profileExists()`:
     Se encuentra en `BuddyNet.h`, regresa un puntero hacia un perfil dándole su nombre de usuario como parámetro; tiene una complejidad temporal de `O(log n)`. Usa una **búsqueda binaria** ya que se añaden muy pocos usuarios en el programa, lo que signficaría que la desventaja de este algoritmo(ordenar el vector) no se repetiría mucho.
@@ -71,6 +74,8 @@ En adición a las estructuras de datos y el algoritmos de ordenamiento mencionad
 
  - `removeFollow`:
     Se encuentra en `Profile.h`, le quita un seguidor a un usuario; tiene una complejidad temporal de `O(n)`. Usa a `isInList()` para comprobar si está el usuario entre los sefuidores; usa una búsqueda lineal ya que cómo están en constante cambio saldría caro realizar varios ordenamientos seguidos.
+
+</details>
 
 La complejidad temporal final del programa no se puede evaluar debido a que depende de las acciones que decida realizar el usuario, la cantidad de veces que se realizarán los diferentes algoritmos dentro de éste programa. 
 
