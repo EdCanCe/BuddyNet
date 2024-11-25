@@ -147,6 +147,7 @@ vector<Profile*>& Post::getVotes(bool q){
 
 /**
  * @brief Upvotes a post.
+ * It has a time complexity of O(n).
  * 
  * @param pPtr The profile that will perform the vote.
  * @return TRUE - The vote was done successfully.
@@ -161,6 +162,7 @@ bool Post::upvote(Profile* pPtr){
 
 /**
  * @brief Downvotes a post.
+ * It has a time complexity of O(n).
  * 
  * @param pPtr The profile that will perform the vote.
  * @return TRUE - The vote was done successfully.
@@ -175,6 +177,7 @@ bool Post::downvote(Profile* pPtr){
 
 /**
  * @brief Erase the current vote of a user on a post.
+ * It has a time complexity of O(n).
  * 
  * @param pPtr The profile that will perform the vote erase.
  * @return TRUE - The vote was removed.

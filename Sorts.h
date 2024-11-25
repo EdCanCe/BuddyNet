@@ -10,6 +10,9 @@
 #define SORTS_H
 
 #include "Post.h"
+#include "Profile.h"
+  
+class Profile; //Forward declaration
 
 /**
  * @class Sorts
@@ -25,9 +28,13 @@ class Sorts{
         void setDates();
         void setVotes();
         bool currentSort();
+        void mergeArray(vector<Profile*>&, vector<Profile*>&, ll, ll, ll);
         void mergeArray(vector<Post*>&, vector<Post*>&, ll, ll, ll);
-        void mergeSplit(vector<Post*>&, vector<Post*>&, ll, ll);
-        void mergeCopy(vector<Post*>&, vector<Post*>&, ll, ll);
+        template <class T>
+        void mergeSplit(vector<T>&, vector<T>&, ll, ll);
+        template <class T>
+        void mergeCopy(vector<T>&, vector<T>&, ll, ll);
+        int binarySearch(vector<Profile*>&, string);
 };
 
 /**
@@ -56,6 +63,37 @@ void Sorts::setVotes(){
  */
 bool Sorts::currentSort(){
     return sortingType;
+}
+
+/**
+ * @brief Merges the 2 sorted parts of A into a single one.
+ * It has a time complexity of O(n), where n=high-low.
+ * 
+ * @param A Original vector.
+ * @param B Auxiliar vector.
+ * @param low Lower pointer of the active section.
+ * @param mid Middle pointer of the active section.
+ * @param high Higher pointer of the active section.
+ */
+void Sorts::mergeArray(vector<Profile*>& A, vector<Profile*>& B, ll low, ll mid, ll high){
+    ll fp=low, sp=mid+1;
+    for(ll i=low; i<=high; i++){
+        if(fp==mid+1){
+            B[i]=A[sp];
+            sp++;
+        }else if(sp==high+1){
+            B[i]=A[fp];
+            fp++;
+        }else{
+            if(A[fp]->getUsername()<A[sp]->getUsername()){
+                B[i]=A[fp];
+                fp++;
+            }else{
+                B[i]=A[sp];
+                sp++;
+            }
+        }
+    }
 }
 
 /**
@@ -108,7 +146,8 @@ void Sorts::mergeArray(vector<Post*>& A, vector<Post*>& B, ll low, ll mid, ll hi
  * @param low Lower pointer of the active section.
  * @param high Higher pointer of the active section.
  */
-void Sorts::mergeSplit(vector<Post*>& A, vector<Post*>& B, ll low, ll high){
+template <class T>
+void Sorts::mergeSplit(vector<T>& A, vector<T>& B, ll low, ll high){
     if(high-low<1){
         return;
     }
@@ -128,11 +167,32 @@ void Sorts::mergeSplit(vector<Post*>& A, vector<Post*>& B, ll low, ll high){
  * @param low Lower pointer of the active section.
  * @param high Higher pointer of the active section.
  */
-void Sorts::mergeCopy(vector<Post*>& A, vector<Post*>& B, ll low, ll high){
+template <class T>
+void Sorts::mergeCopy(vector<T>& A, vector<T>& B, ll low, ll high){
     for(ll i=low; i<=high; i++){
         A[i]=B[i];
     }
 }
+
+/**
+ * @brief Searches in a vector of profiles a certain
+ * profile. It has a time complexity of O(log n).
+ * 
+ * @param A The vector of the profiles.
+ * @param x The profile's username that will be searched.
+ * @return int 
+ */
+int Sorts::binarySearch(vector<Profile*>& A, string x){
+    int low=0, high=A.size()-1, mid;
+	while(low<=high){
+		mid=(low+high)/2;
+		if(A[mid]->getUsername()==x) return mid;
+		if(A[mid]->getUsername()<x) low=mid+1;
+		else high=mid-1;
+	}
+    return -1;
+}
+
 
 Sorts sorts; //Creates a sort object that will be used througout the classes.
 
